@@ -110,7 +110,6 @@ function toggleCarpeta() {
     document.getElementById('sidebar').style.padding = '0px';
     document.getElementById('sidebar').style.overflow = 'hidden';
     
-    // Título ñoño y dinámico
     const nombreUsuario = usuarioActual.displayName ? usuarioActual.displayName.split(' ')[0].toUpperCase() : "DEL GLADIADOR";
     document.getElementById('folder-header').innerHTML = `
         <h2 style="color: var(--accent); margin: 0; letter-spacing: 2px;">📖 EL GRIMORIO DE ${nombreUsuario}</h2>
@@ -164,14 +163,28 @@ auth.onAuthStateChanged(user => {
     }
 });
 
+// 9. LISTENERS Y BOTONES (CORREGIDO)
 document.getElementById('btn-login').onclick = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        auth.signInWithPopup(provider).catch((error) => {
+            console.error("Error en login:", error);
+            if (error.code === 'auth/popup-blocked') {
+                auth.signInWithRedirect(provider);
+            }
+        });
+    }
 };
-document.getElementById('btn-logout').onclick = () => auth.signOut();
-document.getElementById('close-detail').onclick = () => panel.classList.remove('active');
 
-// LISTENERS
+document.getElementById('btn-logout').onclick = () => auth.signOut();
+
+// Listener para la X (Corregido)
+document.getElementById('close-detail').onclick = () => {
+    panel.classList.remove('active');
+};
+
+// LISTENERS FILTROS
 buscador.addEventListener('input', filtrarCartas);
 document.getElementById('raza-filter').addEventListener('change', filtrarCartas);
 document.querySelectorAll('input[type="checkbox"]').forEach(i => i.addEventListener('change', filtrarCartas));
