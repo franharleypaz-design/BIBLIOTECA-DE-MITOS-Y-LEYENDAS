@@ -183,45 +183,29 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// 9. LISTENERS Y BOTONES (CORREGIDO PARA GITHUB)
+// 9. LISTENERS Y BOTONES (VERSIÓN BLINDADA)
 document.getElementById('btn-login').onclick = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
+    // Intentamos obtener el proveedor directamente del objeto auth de firebase
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
 
-    auth.signInWithPopup(provider)
-        .then((result) => {
-            mostrarNotificacion("¡Bienvenido al Reino, " + result.user.displayName + "!", "⚔️");
-        })
-        .catch((error) => {
-            console.error("Error en login:", error);
-            if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-                auth.signInWithRedirect(provider);
-            }
-        });
+        auth.signInWithPopup(provider)
+            .then((result) => {
+                mostrarNotificacion("¡Bienvenido al Reino, " + result.user.displayName + "!", "⚔️");
+            })
+            .catch((error) => {
+                console.error("Error en login:", error);
+                // Si el navegador bloquea el popup, usamos redirección
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                    auth.signInWithRedirect(provider);
+                }
+            });
+    } catch (e) {
+        console.error("Error al inicializar el proveedor:", e);
+        mostrarNotificacion("Error técnico: Revisa la conexión con Firebase", "❌");
+    }
 };
-
-document.getElementById('btn-logout').onclick = () => auth.signOut();
-document.getElementById('close-detail').onclick = () => panel.classList.remove('active');
-
-buscador.addEventListener('input', filtrarCartas);
-document.getElementById('raza-filter').addEventListener('change', filtrarCartas);
-document.querySelectorAll('input[type="checkbox"]').forEach(i => i.addEventListener('change', filtrarCartas));
-
-document.getElementById('filter-coste').oninput = (e) => {
-    document.getElementById('val-coste').innerText = e.target.value;
-    filtrarCartas();
-};
-document.getElementById('filter-fuerza').oninput = (e) => {
-    document.getElementById('val-fuerza').innerText = e.target.value;
-    filtrarCartas();
-};
-
-function cartaAlAzar() {
-    if (cartasMyL.length === 0) return;
-    const c = cartasMyL[Math.floor(Math.random() * cartasMyL.length)];
-    const rutaImg = `img/cartas/${c.Bloque}/${c.Carpeta_Edicion}/${c.Imagen}`;
-    mostrarDetalle(c, rutaImg);
-}
 
 // 10. NOTIFICACIONES (TOAST)
 function mostrarNotificacion(mensaje, icono = '📖') {
