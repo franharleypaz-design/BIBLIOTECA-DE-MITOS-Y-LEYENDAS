@@ -157,7 +157,6 @@ auth.onAuthStateChanged(user => {
     const userSection = document.getElementById('user-logged');
     
     if (user) {
-        // Si el usuario acaba de iniciar sesión y no lo habíamos saludado
         if (!usuarioActual) {
             const nombre = user.displayName ? user.displayName.split(' ')[0] : "Gladiador";
             mostrarNotificacion(`¡Bienvenido al Reino, ${nombre}!`, "⚔️");
@@ -173,7 +172,6 @@ auth.onAuthStateChanged(user => {
             photo.referrerPolicy = "no-referrer";
         }
     } else {
-        // Si el usuario cierra sesión
         if (usuarioActual) {
             mostrarNotificacion("Has abandonado el Reino...", "🌙");
         }
@@ -181,11 +179,11 @@ auth.onAuthStateChanged(user => {
         if(loginBtn) loginBtn.style.display = 'block';
         if(userSection) userSection.style.display = 'none';
         modoCarpeta = false;
-        salirDeCarpeta(); // Nos asegura que vuelva al inicio
+        salirDeCarpeta();
     }
 });
 
-// 9. LISTENERS Y BOTONES (CORREGIDO)
+// 9. LISTENERS Y BOTONES
 document.getElementById('btn-login').onclick = () => {
     if (typeof firebase !== 'undefined' && firebase.auth) {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -201,7 +199,6 @@ document.getElementById('btn-login').onclick = () => {
 
 document.getElementById('btn-logout').onclick = () => auth.signOut();
 
-// Listener para la X (Corregido)
 document.getElementById('close-detail').onclick = () => {
     panel.classList.remove('active');
 };
