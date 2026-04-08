@@ -1,3 +1,4 @@
+// 1. CONFIGURACIÓN FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyB1OmhfpwB-wjsnjhunDCm9Lev5yXLO3E4",
     authDomain: "bibliotecamyl-88ab5.firebaseapp.com",
@@ -11,6 +12,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// 2. VARIABLES GLOBALES
 let cartasMyL = []; 
 let usuarioActual = null;
 let modoCarpeta = false;
@@ -21,6 +23,7 @@ const count = document.getElementById('card-count');
 const buscador = document.getElementById('main-search');
 const panel = document.getElementById('card-detail-panel');
 
+// 3. NAVEGACIÓN
 function irABiblioteca() {
     document.getElementById('home-portal').style.display = 'none';
     document.getElementById('main-library').style.display = 'flex';
@@ -38,15 +41,20 @@ function toggleFiltros() {
     document.getElementById('sidebar').classList.toggle('active');
 }
 
+// 4. CARGAR DATOS (CORREGIDO PARA TU JSON)
 async function cargarGrimorio() {
     try {
         const respuesta = await fetch('cartas.json');
         const data = await respuesta.json();
         // Accedemos a la clave exacta que generó el Excel
         cartasMyL = data["Carga Masiva de Cartas Excel a "]; 
-    } catch (error) { console.error("Error cargando grimorio:", error); }
+        console.log("Grimorio cargado con éxito");
+    } catch (error) { 
+        console.error("Error cargando grimorio:", error); 
+    }
 }
 
+// 5. FILTRADO
 async function filtrarCartas() {
     const texto = buscador.value.toLowerCase();
     const raza = document.getElementById('raza-filter').value.toLowerCase();
@@ -69,14 +77,20 @@ async function filtrarCartas() {
 
     const resultado = cartasMyL.filter(c => {
         if (modoCarpeta && !idsGuardados.includes(c.ID)) return false;
+        
         const matchTexto = c.Nombre.toLowerCase().includes(texto) || (c.Habilidad && c.Habilidad.toLowerCase().includes(texto));
         const matchRaza = raza === "" || (c.Raza && c.Raza.toLowerCase() === raza);
-        const matchEdicion = ediciones.length === 0 || ediciones.includes(c.Carpeta_Edicion.toLowerCase().replace('_', '-'));
+        
+        // Ajuste para que coincida con el formato del JSON (usando replace para guiones)
+        const edicionFormateada = c.Carpeta_Edicion.toLowerCase().replace(/_/g, '-');
+        const matchEdicion = ediciones.length === 0 || ediciones.includes(edicionFormateada);
+        
         const matchTipo = tipos.length === 0 || tipos.includes(c.Tipo.toLowerCase());
         const numCoste = parseInt(c.Coste) || 0;
         const matchCoste = numCoste <= costeMax;
         const numFuerza = parseInt(c.Fuerza) || 0;
         const matchFuerza = (c.Tipo.toLowerCase() === 'aliado') ? numFuerza >= fuerzaMin : true;
+        
         return matchTexto && matchRaza && matchEdicion && matchTipo && matchCoste && matchFuerza;
     });
 
@@ -90,15 +104,17 @@ function dibujarCartas(lista) {
         const rutaImg = `img/cartas/${c.Bloque}/${c.Carpeta_Edicion}/${c.Imagen}`;
         const div = document.createElement('div');
         div.className = 'card-item';
-        div.innerHTML = `<img src="${rutaImg}" alt="${c.Nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x280?text=${c.ID}'">`;
+        div.innerHTML = `<img src="${rutaImg}" alt="${c.Nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x280?text=Sin+Imagen'">`;
         div.onclick = () => mostrarDetalle(c, rutaImg);
         display.appendChild(div);
     });
 }
 
+// 6. DETALLE DE CARTA (CORREGIDO PARA VISUALIZACIÓN)
 function mostrarDetalle(c, ruta) {
     document.getElementById('detail-img').src = ruta;
     document.getElementById('detail-name').innerText = c.Nombre;
+    
     const stats = c.Tipo.toLowerCase() === 'aliado' ? ` | C:${c.Coste} F:${c.Fuerza}` : ` | C:${c.Coste}`;
     document.getElementById('detail-type').innerText = `${c.Tipo.toUpperCase()} ${c.Raza ? '- ' + c.Raza : ''}${stats}`;
     
@@ -108,13 +124,14 @@ function mostrarDetalle(c, ruta) {
     }
 
     document.getElementById('detail-text').innerHTML = `
-        <div style="font-style:italic; line-height:1.5;">${c.Habilidad || c.Hability}</div>
+        <div style="font-style:italic; line-height:1.5;">${c.Habilidad || "Sin habilidad especial."}</div>
         ${btnSave}
-        <p style="margin-top:20px; color:#666; font-size:0.8rem;">Ilustrador: ${c.Ilustrador}</p>
+        <p style="margin-top:20px; color:#888; font-size:0.8rem;">Ilustrador: ${c.Ilustrador}</p>
     `;
     panel.classList.add('active');
 }
 
+// 7. CARPETA / GRIMORIO
 function toggleCarpeta() {
     if (!usuarioActual) return;
     modoCarpeta = true;
@@ -139,10 +156,10 @@ async function guardarEnCarpeta(id) {
         let lista = doc.exists ? doc.data().cartas || [] : [];
         if (lista.includes(id)) {
             lista = lista.filter(item => item !== id);
-            mostrarNotificacion("Carta desterrada.", "🗑️");
+            mostrarNotificacion("Carta desterrada del Grimorio.", "🗑️");
         } else {
             lista.push(id);
-            mostrarNotificacion("Carta inscrita.", "✨");
+            mostrarNotificacion("Carta inscrita en el Grimorio.", "✨");
         }
         await docRef.set({ cartas: lista });
         if(modoCarpeta) filtrarCartas();
@@ -151,48 +168,63 @@ async function guardarEnCarpeta(id) {
 
 async function cambiarNick() {
     if (!usuarioActual) return;
-    const nuevoNick = prompt("¿Cómo quieres ser conocido?", usuarioActual.displayName);
+    const nuevoNick = prompt("¿Cómo quieres ser conocido en el Reino?", usuarioActual.displayName);
     if (nuevoNick && nuevoNick.trim() !== "") {
         try {
             await auth.currentUser.updateProfile({ displayName: nuevoNick });
             document.getElementById('display-name-text').innerText = nuevoNick;
-            mostrarNotificacion("Nombre actualizado", "🖋️");
+            mostrarNotificacion("Tu identidad ha sido actualizada.", "🖋️");
         } catch (e) { console.error(e); }
     }
 }
+
+// 8. AUTHENTICATION
 
 auth.onAuthStateChanged(user => {
     const loginBtn = document.getElementById('btn-login');
     const userSection = document.getElementById('user-logged');
     const folderBtn = document.getElementById('btn-view-folder');
     
+    // Si el usuario entra
     if (user) {
-        if (!saludoRealizado) {
+        // Solo lanzamos notificaciones y cambios visuales si es la primera vez que detectamos el login
+        if (!usuarioActual) { 
             const nombre = user.displayName ? user.displayName.split(' ')[0] : "Gladiador";
             setTimeout(() => { mostrarNotificacion(`¡Bienvenido, ${nombre}!`, "⚔️"); }, 1000);
-            saludoRealizado = true;
+            
+            // Actualizamos la interfaz
+            if(loginBtn) loginBtn.style.display = 'none';
+            if(userSection) userSection.style.display = 'flex';
+            if(folderBtn) folderBtn.style.display = 'block';
+            document.getElementById('display-name-text').innerText = user.displayName || "Gladiador";
+            document.getElementById('user-photo').src = user.photoURL;
         }
-        usuarioActual = user;
-        if(loginBtn) loginBtn.style.display = 'none';
-        if(userSection) userSection.style.display = 'flex';
-        if(folderBtn) folderBtn.style.display = 'block';
-        document.getElementById('display-name-text').innerText = user.displayName || "Gladiador";
-        document.getElementById('user-photo').src = user.photoURL;
+        usuarioActual = user; // Guardamos la sesión
+
     } else {
+        // Si el usuario sale (o no hay sesión)
+        // SOLO recargamos si ANTES había un usuario (es decir, acaba de presionar Salir)
         if (usuarioActual) {
             mostrarNotificacion("Has abandonado el Reino...", "🌙");
+            usuarioActual = null; // Limpiamos la variable PRIMERO
             saludoRealizado = false;
-            if(modoCarpeta || document.getElementById('main-library').style.display === 'flex') {
+
+            // Esperamos un poco para que lea el mensaje y recargamos
+            setTimeout(() => {
                 location.reload();
-            }
+            }, 2000);
+        } else {
+            // Si entra como invitado (sin haber sesión previa), solo nos aseguramos de que los botones estén bien
+            if(loginBtn) loginBtn.style.display = 'block';
+            if(userSection) userSection.style.display = 'none';
+            if(folderBtn) folderBtn.style.display = 'none';
+            usuarioActual = null;
         }
-        usuarioActual = null;
-        if(loginBtn) loginBtn.style.display = 'block';
-        if(userSection) userSection.style.display = 'none';
-        if(folderBtn) folderBtn.style.display = 'none';
     }
 });
 
+
+// 9. LISTENERS
 document.getElementById('btn-login').onclick = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
@@ -220,6 +252,7 @@ function cartaAlAzar() {
     mostrarDetalle(c, `img/cartas/${c.Bloque}/${c.Carpeta_Edicion}/${c.Imagen}`);
 }
 
+// 10. NOTIFICACIONES
 function mostrarNotificacion(mensaje, icono = '📖') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -233,4 +266,5 @@ function mostrarNotificacion(mensaje, icono = '📖') {
     }, 4000);
 }
 
+// Inicializar
 cargarGrimorio();
