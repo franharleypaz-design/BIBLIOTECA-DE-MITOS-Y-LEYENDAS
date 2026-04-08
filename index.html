@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <header class="main-header">
@@ -25,11 +27,14 @@
                 <button id="btn-login" class="btn-entrar">Entrar</button>
 
                 <div id="user-logged" style="display: none; align-items: center; gap: 15px;">
-                    <div class="user-info" onclick="cambiarNick()" title="Click para cambiar Nickname" style="cursor:pointer; text-align: right;">
-                        <span id="user-nickname" style="display:block; font-size:0.7rem; color:var(--accent); font-weight:bold; letter-spacing:1px;">DATOS</span>
+                    <div class="user-info" onclick="cambiarNick()" title="Click para cambiar Nickname"
+                        style="cursor:pointer; text-align: right;">
+                        <span id="user-nickname"
+                            style="display:block; font-size:0.7rem; color:var(--accent); font-weight:bold; letter-spacing:1px;">DATOS</span>
                         <span id="display-name-text" style="font-size:0.85rem; color:white;">Gladiador</span>
                     </div>
-                    <img id="user-photo" src="" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover;">
+                    <img id="user-photo" src=""
+                        style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover;">
                     <button id="btn-logout" class="btn-salir">SALIR</button>
                 </div>
             </div>
@@ -61,6 +66,7 @@
     <div class="main-layout" id="main-library" style="display: none;">
         <aside class="sidebar" id="sidebar">
             <button class="mobile-only close-sidebar" onclick="toggleFiltros()">CERRAR FILTROS ×</button>
+            
             <section class="filter-group">
                 <h3>EDICIONES</h3>
                 <ul>
@@ -69,6 +75,7 @@
                     <li><label><input type="checkbox" value="hijos-daana"> Hijos de Daana</label></li>
                 </ul>
             </section>
+
             <section class="filter-group">
                 <h3>TIPOS DE CARTA</h3>
                 <ul>
@@ -76,28 +83,32 @@
                     <li><label><input type="checkbox" value="totem"> Tótem</label></li>
                     <li><label><input type="checkbox" value="talisman"> Talismán</label></li>
                     <li><label><input type="checkbox" value="oro"> Oro</label></li>
+                    <li><label><input type="checkbox" value="arma"> Arma</label></li>
                 </ul>
             </section>
+
             <section class="filter-group">
                 <h3>ESTADÍSTICAS</h3>
                 <div class="range-container">
-                    <label>Coste Máx: <span id="val-coste">5</span></label>
-                    <input type="range" id="filter-coste" min="0" max="5" value="5">
+                    <label>Coste Máx: <span id="val-coste">10</span></label>
+                    <input type="range" id="filter-coste" min="0" max="10" value="10">
                 </div>
                 <div class="range-container">
                     <label>Fuerza Mín: <span id="val-fuerza">0</span></label>
-                    <input type="range" id="filter-fuerza" min="0" max="5" value="0">
+                    <input type="range" id="filter-fuerza" min="0" max="12" value="0">
                 </div>
             </section>
+
             <section class="filter-group">
                 <h3>RAZAS</h3>
                 <select id="raza-filter">
                     <option value="">Todas las razas</option>
                     <option value="caballero">Caballero</option>
                     <option value="dragon">Dragón</option>
-                    <option value="guerrero">Guerrero</option>
+                    <option value="faerie">Faerie</option>
                     <option value="sombra">Sombra</option>
                     <option value="ancestral">Ancestral</option>
+                    <option value="guerrero">Guerrero</option>
                 </select>
             </section>
         </aside>
@@ -106,12 +117,15 @@
             <div class="top-search-bar">
                 <button class="mobile-only btn-toggle-filters" onclick="toggleFiltros()">⚙️</button>
                 <input type="text" id="main-search" placeholder="Buscar carta...">
-                <button class="btn-folder-toggle" onclick="toggleCarpeta()" id="btn-view-folder" style="display: none;">MI GRIMORIO 📁</button>
+                <button class="btn-folder-toggle" onclick="toggleCarpeta()" id="btn-view-folder"
+                    style="display: none;">MI GRIMORIO 📁</button>
             </div>
+            
             <div id="folder-header" style="display: none;">
                 <h2 id="folder-title">MI GRIMORIO PERSONAL</h2>
                 <button onclick="salirDeCarpeta()" class="btn-back">← VOLVER</button>
             </div>
+
             <div id="results-info">Registros hallados: <span id="card-count">0</span></div>
             <div class="card-grid" id="card-display"></div>
         </main>
@@ -126,7 +140,7 @@
             <div class="detail-hability" id="detail-text"></div>
         </div>
     </div>
-    
+
     <div id="toast-container"></div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -134,4 +148,5 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
