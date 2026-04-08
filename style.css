@@ -2,12 +2,12 @@
    VARIABLES Y CONFIGURACIÓN BASE
    ========================================= */
 :root {
-    --bg-dark: #121212;          /* Fondo general oscuro */
-    --sidebar-bg: #1e1e1e;       /* Fondo lateral */
-    --text-color: #e0e0e0;       /* Texto claro */
-    --accent: #d4af37;           /* Dorado MyL */
-    --myl-blue: #1a237e;         /* Azul profundo MyL */
-    --header-height: 100px;      /* Altura fija de cabecera */
+    --bg-dark: #121212;
+    --sidebar-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --accent: #d4af37;
+    --myl-blue: #1a237e;
+    --header-height: 100px;
 }
 
 body {
@@ -22,7 +22,7 @@ body {
 }
 
 /* =========================================
-   CABECERA
+   CABECERA (DISEÑO ORIGINAL RESTAURADO)
    ========================================= */
 .main-header {
     display: flex;
@@ -127,6 +127,9 @@ body {
     padding: 25px;
     border-right: 1px solid #333;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+    transition: width 0.4s ease;
 }
 
 .filter-group {
@@ -172,7 +175,7 @@ body {
 }
 
 /* =========================================
-   ESTILO DE LAS CARTAS (MOVIMIENTO AÑADIDO)
+   ESTILO DE LAS CARTAS
    ========================================= */
 .card-item {
     width: 200px;
@@ -183,14 +186,12 @@ body {
     border: 1px solid #444;
     cursor: pointer;
     position: relative;
-    /* TRANSICIÓN PARA EL MOVIMIENTO */
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* ESTO ES LO QUE HACE QUE SE MUEVA */
 .card-item:hover {
-    transform: translateY(-10px); /* Sube la carta */
-    border-color: var(--accent);   /* Borde dorado */
+    transform: translateY(-10px);
+    border-color: var(--accent);
     box-shadow: 0 10px 20px rgba(0,0,0,0.8);
     z-index: 10;
 }
@@ -217,7 +218,7 @@ body {
     transition: all 0.4s ease-in-out;
     padding: 30px;
     box-shadow: -10px 0 30px rgba(0,0,0,0.9);
-    overflow-y: auto; /* Permite scroll si el texto es largo */
+    overflow-y: auto;
 }
 
 .detail-panel.active {
@@ -226,16 +227,20 @@ body {
 
 #close-detail {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: 1px solid var(--accent);
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    border: 2px solid var(--accent);
     color: var(--accent);
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 50%;
     width: 35px;
     height: 35px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .detail-content img {
@@ -253,57 +258,35 @@ body {
     line-height: 1.5;
 }
 
-/* Agrega esto al final de tu archivo style.css original */
-.btn-random:hover {
-    transform: scale(1.1) rotate(10deg);
-    transition: 0.2s;
-}
-
-.sidebar {
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
-}
-
-/* Sección de relacionados en el panel de detalle */
-.related-section {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px dashed #444;
-}
-
-.related-title {
-    color: var(--accent);
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
-.related-buttons {
+/* =========================================
+   ESTILOS PARA NOTIFICACIONES (TOAST)
+   ========================================= */
+.toast-notificacion {
+    background-color: #1a1a1a; /* Fondo casi negro */
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    border: 1px solid var(--accent); /* Borde dorado MyL */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7), 0 0 10px rgba(212, 175, 55, 0.3); /* Resplandor dorado sutil */
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    min-width: 250px;
+    
+    /* Animación de entrada y salida */
+    transform: translateX(120%);
+    transition: transform 0.4s ease-out;
 }
 
-.btn-related {
-    background: #222;
-    border: 1px solid var(--accent);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
+/* Clase que activa la aparición */
+.toast-notificacion.mostrar {
+    transform: translateX(0);
 }
 
-.btn-related:hover {
-    background: var(--accent);
-    color: #000;
-}
-
-.illustrator-text {
-    margin-top: 20px;
-    color: #666;
-    border-top: 1px solid #222;
-    padding-top: 10px;
+/* Icono dentro de la notificación */
+.toast-icon {
+    font-size: 1.2rem;
+    color: var(--accent);
 }

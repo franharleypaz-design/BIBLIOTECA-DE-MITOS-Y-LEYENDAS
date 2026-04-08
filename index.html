@@ -22,14 +22,24 @@
         <div class="header-action-block">
             <div class="search-container">
                 <input type="text" id="main-search" placeholder="Buscar por nombre, tipo, raza, habilidad...">
-                <button class="btn-random" onclick="cartaAlAzar()" style="background:var(--accent); border:none; padding:0 15px; border-radius:6px; font-size:1.2rem; cursor:pointer; margin-right:5px;">🎲</button>
+                <button class="btn-random" onclick="cartaAlAzar()" title="Carta al Azar">🎲</button>
                 <button class="btn-advanced">Avanzada</button>
+            </div>
+
+            <div id="auth-section" style="margin-left: 20px; display: flex; align-items: center; gap: 12px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px;">
+                <button id="btn-login" style="background: white; color: var(--myl-blue); border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Entrar</button>
+
+                <div id="user-logged" style="display: none; align-items: center; gap: 10px;">
+                    <img id="user-photo" src="" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover;">
+                    <button id="btn-my-folder" onclick="toggleCarpeta()" title="Mi Carpeta Virtual" style="background:var(--accent); border:none; padding:5px 10px; border-radius:6px; font-size:1.1rem; cursor:pointer;">📁</button>
+                    <button id="btn-logout" style="background: transparent; border: none; color: #ff6b6b; cursor: pointer; font-size: 0.7rem; font-weight: bold;">SALIR</button>
+                </div>
             </div>
         </div>
     </header>
 
     <div class="main-layout">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <section class="filter-group">
                 <h3>EDICIONES</h3>
                 <ul>
@@ -79,28 +89,35 @@
         </aside>
 
         <main class="content">
-            <div id="results-info">
-                Mostrando <span id="card-count">0</span> cartas encontradas
+            <div id="folder-header" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--accent); padding-bottom: 15px;">
+                <h2 style="color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 2px;">Mi Carpeta Virtual</h2>
+                <button onclick="salirDeCarpeta()" style="background: var(--accent); color: black; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;">← Volver</button>
             </div>
-            
-            <div class="card-grid" id="card-display">
-                <div class="card-placeholder">
-                    Cargando grimorio...
-                </div>
-            </div>
+
+            <div id="results-info">Mostrando <span id="card-count">0</span> cartas encontradas</div>
+            <div class="card-grid" id="card-display"></div>
         </main>
 
         <div id="card-detail-panel" class="detail-panel">
             <div class="detail-content">
                 <button id="close-detail">×</button>
-                <img src="" id="detail-img" alt="Carta">
-                <h2 id="detail-name">Nombre</h2>
-                <p id="detail-type">Tipo</p>
-                <div class="detail-hability" id="detail-text">Habilidad...</div>
+                <img src="" id="detail-img">
+                <h2 id="detail-name"></h2>
+                <p id="detail-type"></p>
+                <div class="detail-hability" id="detail-text"></div>
             </div>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="app.js"></script>
+
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column-reverse; gap: 10px;"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    ... (tus scripts de Firebase y app.js) ...
+
 </body>
 </html>
