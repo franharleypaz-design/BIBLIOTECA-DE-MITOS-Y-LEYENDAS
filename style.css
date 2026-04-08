@@ -207,7 +207,7 @@ body {
    ========================================= */
 .detail-panel {
     position: fixed;
-    right: -450px; 
+    right: -450px;
     top: var(--header-height);
     bottom: 0;
     width: 380px;
@@ -217,6 +217,7 @@ body {
     transition: all 0.4s ease-in-out;
     padding: 30px;
     box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    overflow-y: auto; /* Permite scroll si el texto es largo */
 }
 
 .detail-panel.active {
@@ -250,4 +251,59 @@ body {
     border-left: 3px solid var(--accent);
     font-style: italic;
     line-height: 1.5;
+}
+
+/* Agrega esto al final de tu archivo style.css original */
+.btn-random:hover {
+    transform: scale(1.1) rotate(10deg);
+    transition: 0.2s;
+}
+
+.sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+}
+
+/* Sección de relacionados en el panel de detalle */
+.related-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #444;
+}
+
+.related-title {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.related-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-related {
+    background: #222;
+    border: 1px solid var(--accent);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-related:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.illustrator-text {
+    margin-top: 20px;
+    color: #666;
+    border-top: 1px solid #222;
+    padding-top: 10px;
 }
