@@ -41,7 +41,9 @@ function toggleFiltros() {
 async function cargarGrimorio() {
     try {
         const respuesta = await fetch('cartas.json');
-        cartasMyL = await respuesta.json();
+        const data = await respuesta.json();
+        // Accedemos a la clave exacta que generó el Excel
+        cartasMyL = data["Carga Masiva de Cartas Excel a "]; 
     } catch (error) { console.error("Error cargando grimorio:", error); }
 }
 
