@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grimorio MyL - Biblioteca de Crónicas</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="body-biblioteca">
+
+    <header class="main-header">
+        <div class="header-identity-block">
+            <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+                <img src="logo-fenix.png" alt="Fénix MyL" class="main-logo">
+                <div class="logo-text">
+                    <h1>GRIMORIO DE <span class="accent-on-light">MITOLOGÍA</span></h1>
+                    <p class="subtitle">PRIMERA ERA Y PRIMER BLOQUE</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-action-block">
+            <button id="btn-login">ASCENDER</button>
+
+            <div id="user-logged" style="display: none;">
+                <span id="display-name-text"></span>
+                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
+                    onclick="location.href='perfil.html'" title="Mi Perfil" style="cursor: pointer;"
+                    onerror="this.src='img/avatar-default.png'; this.onerror=null;">
+                <button id="btn-logout" class="btn-salir">SALIR</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout" id="main-library">
+
+        <aside class="sidebar" id="sidebar">
+
+            <section class="filter-group">
+                <h3>EDICIONES</h3>
+                <ul class="filter-list">
+                    <li><label><input type="checkbox" value="espada-sagrada"> ESPADA SAGRADA</label></li>
+                    <li><label><input type="checkbox" value="helenica"> HELÉNICA</label></li>
+                    <li><label><input type="checkbox" value="hijos-daana"> HIJOS DE DAANA</label></li>
+                </ul>
+            </section>
+
+            <section class="filter-group">
+                <h3>TIPOS DE CARTA</h3>
+                <ul class="filter-list">
+                    <li><label><input type="checkbox" value="aliado"> ALIADO</label></li>
+                    <li><label><input type="checkbox" value="totem"> TÓTEM</label></li>
+                    <li><label><input type="checkbox" value="talisman"> TALISMÁN</label></li>
+                    <li><label><input type="checkbox" value="oro"> ORO</label></li>
+                    <li><label><input type="checkbox" value="arma"> ARMA</label></li>
+                </ul>
+            </section>
+
+            <section class="filter-group">
+                <h3>ESTADÍSTICAS</h3>
+                <div class="range-container">
+                    <label>Coste Máx: <span id="val-coste">10</span></label>
+                    <input type="range" id="filter-coste" min="0" max="10" value="10" oninput="filtrarCartas()">
+                </div>
+                <div class="range-container">
+                    <label>Fuerza Mín: <span id="val-fuerza">0</span></label>
+                    <input type="range" id="filter-fuerza" min="0" max="12" value="0" oninput="filtrarCartas()">
+                </div>
+            </section>
+
+            <section class="filter-group">
+                <h3>RAZAS</h3>
+                <select id="raza-filter" onchange="filtrarCartas()">
+                    <option value="">Todas las razas</option>
+                    <option value="caballero">Caballero</option>
+                    <option value="dragon">Dragón</option>
+                    <option value="faerie">Faerie</option>
+                    <option value="sombra">Sombra</option>
+                    <option value="ancestral">Ancestral</option>
+                    <option value="guerrero">Guerrero</option>
+                    <option value="sacerdote">Sacerdote</option>
+                    <option value="bestia">Bestia</option>
+                </select>
+            </section>
+        </aside>
+
+        <main class="content">
+            <div class="top-search-bar">
+                <input type="text" id="main-search" placeholder="Buscar por nombre o habilidad...">
+                <button class="btn-folder-toggle" onclick="location.href='grimorio.html'" id="btn-view-folder"
+                    style="display: none;">MI GRIMORIO 📁</button>
+            </div>
+
+            <div id="results-info">REGISTROS HALLADOS: <span id="card-count">0</span></div>
+            <div class="card-grid" id="card-display"></div>
+        </main>
+    </div>
+
+    <div id="card-detail-panel" class="detail-panel">
+        <div class="detail-content">
+            <div class="close-panel-wrapper">
+                <button id="close-detail">&times;</button>
+            </div>
+            <img src="" id="detail-img">
+            <h2 id="detail-name"></h2>
+            <p id="detail-type"></p>
+
+            <div class="detail-references">
+                <span id="detail-id">#000</span>
+                <span id="detail-edition">EDICIÓN</span>
+            </div>
+
+            <div class="detail-hability" id="detail-text"></div>
+            
+            <div id="save-button-container"></div>
+            
+            <p id="detail-illustrator" class="detail-illustrator"></p>
+
+            <div id="related-cards-section" style="margin-top: 20px; width: 100%; display: none;">
+                <p style="font-size: 0.7rem; color: #888; margin-bottom: 10px; letter-spacing: 1px;">CARTAS REFERENCIALES:</p>
+                <div id="related-buttons-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

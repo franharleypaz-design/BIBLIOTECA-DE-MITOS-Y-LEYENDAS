@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Grimorio - Crónicas del Reino</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="body-grimorio">
+
+    <header class="main-header">
+        <div class="header-identity-block">
+            <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+                <img src="logo-fenix.png" alt="Fénix MyL" class="main-logo">
+                <div class="logo-text">
+                    <h1>GRIMORIO DE <span class="accent-on-light">MITOLOGÍA</span></h1>
+                    <p class="subtitle">PRIMERA ERA Y PRIMER BLOQUE</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-action-block">
+            <button id="btn-login">ASCENDER</button>
+
+            <div id="user-logged" style="display: none;">
+                <span id="display-name-text"></span>
+                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
+                    onclick="location.href='perfil.html'" title="Mi Perfil" style="cursor: pointer;"
+                    onerror="this.src='img/avatar-default.png'; this.onerror=null;">
+                <button id="btn-logout" class="btn-salir">SALIR</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-grimorio">
+        <div class="folder-header-fixed">
+            <div class="title-section">
+                <h2 id="folder-title">MI GRIMORIO PERSONAL</h2>
+                <p class="folder-subtitle">Colección de cartas guardadas en el abismo</p>
+            </div>
+            <div class="folder-actions">
+                <button onclick="location.href='biblioteca.html'" class="btn-back-kingdom">← VOLVER A LA
+                    BIBLIOTECA</button>
+                <button onclick="limpiarGrimorio()" class="btn-danger-soft">VACIAR GRIMORIO</button>
+            </div>
+        </div>
+
+        <div id="results-info">Cartas en tu colección: <span id="card-count">0</span></div>
+
+        <div class="card-grid" id="card-display"></div>
+    </main>
+
+    <div id="card-detail-panel" class="detail-panel">
+        <button id="close-detail">×</button>
+        <div class="detail-content">
+            <img src="" id="detail-img">
+            <h2 id="detail-name"></h2>
+            <p id="detail-type"></p>
+            <div class="detail-hability" id="detail-text"></div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

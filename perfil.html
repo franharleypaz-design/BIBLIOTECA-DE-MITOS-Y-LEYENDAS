@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Grimorio de Mitología</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="body-perfil">
+
+    <header class="main-header">
+        <div class="header-identity-block">
+            <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+                <img src="logo-fenix.png" alt="Fénix MyL" class="main-logo">
+                <div class="logo-text">
+                    <h1>GRIMORIO DE <span class="accent-on-light">MITOLOGÍA</span></h1>
+                    <p class="subtitle">PRIMERA ERA Y PRIMER BLOQUE</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-action-block">
+            <button id="btn-login">ASCENDER</button>
+
+            <div id="user-logged" style="display: none;">
+                <span id="display-name-text"></span>
+                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
+                    onclick="location.href='perfil.html'" title="Mi Perfil" style="cursor: pointer;"
+                    onerror="this.src='img/avatar-default.png'; this.onerror=null;">
+                <button id="btn-logout" class="btn-salir">SALIR</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="perfil-main">
+        <div class="perfil-card">
+
+            <div id="perfil-view-wrapper" style="display: flex; width: 100%; align-items: stretch; gap: 0;">
+
+                <div class="invocador-column"
+                    style="flex: 1; padding-right: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <div id="invocador-view" class="view-block"
+                        style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+
+                        <div class="avatar-container-large" onclick="abrirGaleria()" style="margin: 0 auto 20px auto;">
+                            <img id="profile-img-large" src="img/avatar-default.png"
+                                onerror="this.src='img/avatar-default.png'">
+                            <div class="change-photo-overlay">CAMBIAR</div>
+                        </div>
+
+                        <h2 class="card-nick" id="card-nick-display" style="margin: 10px 0; width: 100%;">INVOCANDO...
+                        </h2>
+
+                        <div class="card-desc-container"
+                            style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <p class="card-real-name" id="card-real-name-display" style="display: none;">Cargando
+                                nombre...</p>
+                            <p class="card-stats" style="display: none;">
+                                <span><strong>SEXO:</strong> <span id="card-sexo-display">MÍSTICO</span></span>
+                                <span><strong>EDAD:</strong> <span id="card-edad-display">??</span></span>
+                            </p>
+
+                            <div class="card-bio" id="card-desc-display"
+                                style="margin: 10px auto; max-width: 320px; line-height: 1.6;">Leyendo crónicas del
+                                tiempo...</div>
+                        </div>
+
+                        <p class="perfil-status" id="invocador-rango" style="margin: 15px 0; font-weight: bold;">RANGO:
+                            INICIADO</p>
+
+                        <button onclick="activarModoEdicion()" class="btn-salir btn-large"
+                            style="margin-top: 20px; min-width: 200px;">MODIFICAR DATOS</button>
+                    </div>
+                </div>
+
+                <div class="data-separator"></div>
+
+                <div class="data-column"
+                    style="flex: 1; padding-left: 40px; display: flex; flex-direction: column; justify-content: center;">
+                    <div class="folders-section">
+                        <h3>MIS CARPETAS</h3>
+                        <div id="folders-container" class="folders-list">
+                            <div class="folder-item">
+                                <span>📁 GRIMORIO PERSONAL</span>
+                                <button class="btn-salir" onclick="location.href='grimorio.html'">ABRIR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="perfil-edit-form" class="edit-mode-container" style="display: none;">
+                <h2 class="perfil-title">REESCRIBIR ESENCIA</h2>
+                <hr class="perfil-title-divider">
+
+                <div class="form-grid-image-match">
+                    <div class="input-group full-width-field">
+                        <label>NICKNAME (Grito de guerra)</label>
+                        <input type="text" id="p-nickname" placeholder="Ej: CHESCOOKIES">
+                    </div>
+
+                    <div class="input-group full-width-field">
+                        <label>NOMBRE REAL</label>
+                        <input type="text" id="p-realname" placeholder="Tu nombre terrenal...">
+                    </div>
+
+                    <div class="input-row-inline">
+                        <div class="input-group field-half">
+                            <label>SEXO</label>
+                            <select id="p-sexo">
+                                <option value="MÍSTICO">MÍSTICO</option>
+                                <option value="HOMBRE">HOMBRE</option>
+                                <option value="MUJER">MUJER</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group field-half">
+                            <label>EDAD</label>
+                            <input type="number" id="p-edad" placeholder="??">
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width-field">
+                        <label>BIOGRAFÍA / LEYENDA</label>
+                        <textarea id="p-descripcion" rows="4" maxlength="150"
+                            placeholder="Escribe tu historia aquí..."></textarea>
+                    </div>
+                </div>
+
+                <div class="edit-buttons-match">
+                    <button onclick="guardarDatosPerfil()" class="btn-vincular-match">VINCULAR</button>
+                    <button onclick="cancelarEdicion()" class="btn-abortar-match">ABORTAR</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="toast-container"></div>
+
+    <div id="modal-galeria" class="avatar-gallery" style="display: none;">
+        <h3 class="perfil-title" style="grid-column: span 3;">ELIGE TU ESENCIA</h3>
+
+        <div class="avatar-grid">
+            <img src="img/avatares/chesca_dark.png" class="avatar-option" title="Chesca Dark"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/guerrero.png" class="avatar-option" title="Guerrero"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/mago.png" class="avatar-option" title="Mago" onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/elfo.png" class="avatar-option" title="Elfo" onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/caballero.png" class="avatar-option" title="Caballero"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/dragon.png" class="avatar-option" title="Dragón"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/bestia.png" class="avatar-option" title="Bestia"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/shinji.png" class="avatar-option" title="Shinji"
+                onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/snow.png" class="avatar-option" title="Snow" onclick="seleccionarAvatar(this.src)">
+            <img src="img/avatares/ebor.png" class="avatar-option" title="Ebor" onclick="seleccionarAvatar(this.src)">
+        </div>
+
+        <button onclick="cerrarGaleria()" class="btn-salir"
+            style="grid-column: span 3; margin-top: 15px; width: 100%;">CERRAR SANTUARIO</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
