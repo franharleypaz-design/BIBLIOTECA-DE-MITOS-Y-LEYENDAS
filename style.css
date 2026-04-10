@@ -216,7 +216,6 @@ a { text-decoration: none; color: inherit; }
     flex-shrink: 0;
 }
 
-/* 4.1 ESTILO BARRA DE BUSQUEDA Y CONTADOR */
 .top-search-bar {
     margin-bottom: 20px;
     display: flex;
@@ -258,7 +257,6 @@ a { text-decoration: none; color: inherit; }
     font-size: 1.1rem;
 }
 
-/* 4.2 SIDEBAR Y FILTROS ORDENADOS */
 .filter-group {
     margin-bottom: 30px;
 }
@@ -274,7 +272,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .filter-list {
-    list-style: none; /* Elimina los puntos negros de la lista */
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -295,7 +293,6 @@ a { text-decoration: none; color: inherit; }
 
 .filter-list label:hover { color: var(--accent); }
 
-/* Range Sliders Dorados */
 .range-container {
     margin-bottom: 20px;
 }
@@ -313,7 +310,6 @@ a { text-decoration: none; color: inherit; }
     cursor: pointer;
 }
 
-/* SELECT DE RAZAS (ESTILO GRIMORIO) */
 #raza-filter {
     width: 100%;
     background-color: #121212 !important;
@@ -391,7 +387,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* =========================================
-   5. PANEL DE DETALLE (REFERENCIAS E INFO)
+   5. PANEL DE DETALLE (UNIFICACIÓN TOTAL)
    ========================================= */
 .detail-panel {
     position: fixed;
@@ -402,7 +398,7 @@ a { text-decoration: none; color: inherit; }
     border-left: 3px solid var(--accent);
     z-index: 2000;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 40px 30px !important;
+    padding: 0 !important; 
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -417,6 +413,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     flex-direction: column;
     text-align: center;
+    padding: 40px 30px; 
 }
 
 #detail-img {
@@ -504,7 +501,6 @@ a { text-decoration: none; color: inherit; }
     letter-spacing: 1px;
 }
 
-/* ESTILO DE LOS BOTONES REFERENCIALES (NAVEGACIÓN POR ID) */
 .btn-rel-jump {
     background: rgba(255, 255, 255, 0.05);
     color: var(--accent);
@@ -714,9 +710,6 @@ a { text-decoration: none; color: inherit; }
 /* =========================================
    8. CARPETAS, GALERÍA Y AVATARES
    ========================================= */
-.folders-section h3 { border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 10px; margin-bottom: 20px; }
-.folder-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-
 .avatar-gallery {
     display: none; 
     position: fixed;
@@ -744,7 +737,6 @@ a { text-decoration: none; color: inherit; }
 
 .avatar-loading { opacity: 0; transition: opacity 0.5s ease-in-out; }
 .avatar-loaded { opacity: 1; }
-.avatar-container-large, .avatar-header { background-color: #1a1a1a; display: inline-block; }
 
 /* =========================================
    9. ANIMACIONES Y SCROLLBAR
@@ -768,38 +760,222 @@ a { text-decoration: none; color: inherit; }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
 /* =========================================
-   10. BOTÓN CIERRE (PEQUEÑO Y CENTRADO)
+   10. BOTÓN CIERRE (CENTRA DO Y DORADO)
    ========================================= */
-.close-panel-wrapper {
-    position: absolute;
-    top: -10px;     
-    right: 5px;     
-    z-index: 2100; 
-}
-
 #close-detail {
-    all: unset; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;    
-    height: 26px; 
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f9f1c0 0%, #d4af37 50%, #b8860b 100%);
-    border: 1.5px solid #5c4301;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-    color: #2e1a00; 
-    font-family: 'Arial', sans-serif; 
-    font-size: 20px; 
-    font-weight: bold;
-    line-height: 0;   
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    all: unset;
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 38px !important;
+    height: 38px !important;
+    background: #d4af37 !important;
+    border: 2px solid #000 !important;
+    border-radius: 50% !important;
+    color: #000 !important;
+    font-size: 22px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    
+    /* Centrado absoluto */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important; 
+    
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.9) !important;
+    z-index: 3000 !important; 
+    transition: 0.3s ease !important;
 }
 
 #close-detail:hover {
-    transform: scale(1.1); 
-    background: #f9f1c0;
-    box-shadow: 0 0 10px var(--accent);
+    transform: scale(1.1) rotate(90deg) !important;
+    background: #fff !important;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.8) !important;
+}
+
+.btn-remove-card {
+    width: 100%;
+    padding: 12px;
+    background: #4a0e0e; 
+    color: #ff6666;
+    border: 1px solid #ff3333;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.btn-remove-card:hover {
+    background: #800000;
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+/* =========================================
+   ESTILO BARRA DE BÚSQUEDA Y BOTÓN GRIMORIO
+   ========================================= */
+
+/* Contenedor que limita el ancho total */
+.search-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; /* Aquí controlas que no se vea tan larga */
+}
+
+/* Ajuste del input de búsqueda */
+#main-search {
+    flex: 2; /* Toma el espacio disponible de forma equilibrada */
+    height: 45px;
+}
+
+/* Botón "MI GRIMORIO" estilo místico */
+.btn-goto-grimorio {
+    flex: 1;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-family: var(--font-main);
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    padding: 0 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.btn-goto-grimorio .icon {
+    font-size: 1.2rem;
+    filter: sepia(1) saturate(5); /* Le da un tono más dorado al emoji */
+}
+
+.btn-goto-grimorio:hover {
+    background: var(--accent);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-goto-grimorio:active {
+    transform: translateY(0);
+}
+
+/* Responsivo: En celulares se ponen uno arriba del otro */
+@media (max-width: 600px) {
+    .search-wrapper {
+        flex-direction: column;
+        max-width: 100%;
+    }
+    #main-search, .btn-goto-grimorio {
+        width: 100%;
+    }
+}
+
+/* Contenedor relativo para el input y la X */
+.input-container {
+    position: relative;
+    flex: 2; /* Mantiene la proporción frente al botón de Grimorio */
+    display: flex;
+    align-items: center;
+}
+
+#main-search {
+    width: 100%;
+    padding-right: 40px !important; /* Espacio para que el texto no tape la X */
+}
+
+/* El botón de limpiar (la X) */
+#clear-search {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: none; /* Oculto por defecto */
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+#clear-search:hover {
+    color: #fff;
+    transform: scale(1.2);
+}
+
+/* Botón de Navegación Estilo Místico */
+.btn-mystick-nav {
+    background: linear-gradient(to bottom, #d4af37, #b8860b);
+    color: black !important;
+    border: 1px solid white;
+    padding: 10px 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-family: var(--font-main);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+}
+
+.btn-mystick-nav:hover {
+    background: #fff !important;
+    box-shadow: 0 0 20px var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-mystick-nav:active {
+    transform: translateY(0);
+}
+
+/* Ajuste del header fijo para que no apriete los elementos */
+.folder-header-fixed {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.folder-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 3px solid var(--accent);
+    transition: 0.3s;
+}
+
+.folder-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.folder-info span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: #fff;
 }

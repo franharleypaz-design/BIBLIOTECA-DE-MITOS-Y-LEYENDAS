@@ -1,0 +1,317 @@
+/* ==========================================
+   CONSTRUCTOR.CSS - LÓGICA DE LAYOUT TALLER
+   ========================================== */
+
+/* 1. RESET Y BLOQUEO DE SCROLL GLOBAL */
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Evita el temblor de la página entera */
+    display: flex;
+    flex-direction: column;
+    background: #000;
+}
+
+/* 2. LAYOUT PRINCIPAL (GRID) */
+.constructor-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr 380px; /* Sidebar | Galería | Deck */
+    grid-template-rows: auto 1fr;         /* Reglas arriba | Contenido abajo */
+    gap: 15px;
+    padding: 15px;
+    flex: 1; /* Ocupa todo el espacio bajo el header */
+    box-sizing: border-box;
+    overflow: hidden; 
+}
+
+/* MODIFICACIÓN MODO ÁLBUM: Layout más espacioso para la galería */
+body.modo-album .constructor-layout {
+    grid-template-columns: 280px 1fr 320px;
+}
+
+/* 3. PANEL DE REGLAS (SUPERIOR) */
+.setup-rules-panel {
+    grid-column: span 3;
+    background: rgba(15, 15, 15, 0.95);
+    border: 1px solid var(--accent);
+    height: 70px; 
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    gap: 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+}
+
+/* Ocultar reglas en modo álbum */
+body.modo-album .setup-rules-panel {
+    display: none !important;
+}
+
+.setup-rules-panel h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--accent);
+    min-width: 140px;
+}
+
+/* --- SELECTS UNIFICADOS --- */
+.setup-rules-panel select, 
+.sidebar select {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #000 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    border: 1px solid var(--accent) !important;
+    color: var(--accent) !important;
+    padding: 8px 30px 8px 12px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.8rem !important;
+    flex: 1;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s all ease;
+    text-transform: uppercase;
+}
+
+.setup-rules-panel select:focus,
+.sidebar select:focus {
+    border-color: #fff !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+select option {
+    background-color: #0a0a0a;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    padding: 10px;
+}
+
+/* 4. COLUMNAS CON SCROLL INDEPENDIENTE */
+.sidebar, 
+.content-scroll, 
+.deck-builder-panel {
+    height: 100%;
+    overflow-y: auto; 
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) rgba(0,0,0,0.3);
+}
+
+/* 5. SIDEBAR (FILTROS) */
+.sidebar {
+    background: rgba(10, 10, 10, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.sidebar .filter-group {
+    margin-bottom: 25px;
+}
+
+.sidebar h3 {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    padding-bottom: 5px;
+}
+
+/* Estilo para el botón de Exhibición/Favoritos */
+.active-filter {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #ffcc00 !important;
+    border-color: #ffcc00 !important;
+}
+
+/* 6. CONTENIDO CENTRAL (GALERÍA) */
+.content-scroll {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Ajuste visual para el álbum */
+body.modo-album .content-scroll {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+/* 7. PANEL DEL MAZO/ÁLBUM (DERECHA) */
+.deck-builder-panel {
+    background: rgba(5, 5, 5, 0.98);
+    border: 1px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.8);
+}
+
+.deck-stats-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 15px;
+}
+
+/* Ocultar estadísticas de juego en modo álbum */
+body.modo-album .deck-stats-header {
+    display: none;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.stat-grid strong { 
+    color: var(--accent); 
+}
+
+/* 8. LISTA DE CARTAS */
+.deck-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+.deck-card-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    transition: 0.2s;
+    animation: fadeIn 0.3s ease; /* Animación para filtros */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.deck-card-item:hover {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* Estilo para items marcados como favoritos */
+.deck-card-item.is-fav {
+    border-left: 3px solid #ffcc00;
+    background: rgba(255, 204, 0, 0.05);
+}
+
+.deck-card-qty {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 1rem;
+    min-width: 30px;
+}
+
+/* Cantidad más discreta en álbum */
+body.modo-album .deck-card-qty {
+    color: #fff;
+}
+
+.deck-card-info {
+    flex: 1;
+    font-size: 0.75rem;
+    line-height: 1.3;
+}
+
+.deck-card-info strong {
+    color: #fff;
+    display: block;
+}
+
+/* 9. BOTONES DE CONTROL */
+.btn-qty-control {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.btn-qty-control:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: #fff;
+}
+
+/* Botón de estrella para favoritos */
+.btn-fav-toggle {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-fav-toggle:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px var(--accent);
+}
+
+/* 10. ESTADOS DE ALERTA */
+.status-oro-alert {
+    margin-top: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+/* 11. BOTÓN GUARDAR FINAL */
+.btn-save-deck {
+    width: 100%;
+    background: linear-gradient(to bottom, #d4af37, #b8860b);
+    color: #000;
+    border: 1px solid #fff;
+    padding: 14px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.btn-save-deck:hover {
+    background: #fff;
+    box-shadow: 0 0 20px var(--accent);
+}
+
+/* SCROLLBAR CUSTOM (Webkit) */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }

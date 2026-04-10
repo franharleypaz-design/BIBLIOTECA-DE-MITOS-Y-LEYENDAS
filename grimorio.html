@@ -7,6 +7,178 @@
     <title>Mi Grimorio - Crónicas del Reino</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ESTILOS PARA MAZOS Y CARPETAS */
+        .seccion-gestion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bloque-místico {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .bloque-místico h3 {
+            color: var(--accent);
+            font-family: 'Cinzel', serif;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-slots {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .slot-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #333;
+            padding: 12px 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .slot-item:hover {
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .slot-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slot-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .slot-count {
+            color: var(--accent);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .slot-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-slot-icon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-slot-icon:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-slot-icon.btn-del:hover {
+            background: #8b1a1a;
+            color: white;
+            border-color: #ff4444;
+        }
+
+        .btn-share:hover {
+            background: #2a5298 !important;
+            color: white !important;
+            border-color: #3b82f6 !important;
+        }
+
+        .btn-slot-open {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-slot-open:hover {
+            background: #fff;
+        }
+
+        .import-box {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .import-box input {
+            flex: 1;
+            background: #000;
+            border: 1px solid #444;
+            color: var(--accent);
+            padding: 8px;
+            font-family: var(--font-main);
+            font-size: 0.8rem;
+        }
+
+        #close-detail {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #d4af37;
+            border: 2px solid #000;
+            border-radius: 50%;
+            color: #000;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+            z-index: 1001;
+            transition: 0.3s;
+        }
+
+        #close-detail:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .seccion-gestion {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body class="body-grimorio">
@@ -24,42 +196,145 @@
 
         <div class="header-action-block">
             <button id="btn-login">ASCENDER</button>
-
             <div id="user-logged" style="display: none;">
                 <span id="display-name-text"></span>
                 <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'" title="Mi Perfil" style="cursor: pointer;"
-                    onerror="this.src='img/avatar-default.png'; this.onerror=null;">
+                    onclick="location.href='perfil.html'">
                 <button id="btn-logout" class="btn-salir">SALIR</button>
             </div>
         </div>
     </header>
 
-    <main class="content-grimorio">
+    <main class="content-grimorio" style="padding: 20px 40px;">
+
         <div class="folder-header-fixed">
             <div class="title-section">
-                <h2 id="folder-title">MI GRIMORIO PERSONAL</h2>
-                <p class="folder-subtitle">Colección de cartas guardadas en el abismo</p>
+                <h2 id="folder-title">SANTUARIO DE ESTRATEGIA</h2>
+                <p class="folder-subtitle">Gestiona tus mazos de guerra y carpetas de intercambio</p>
             </div>
             <div class="folder-actions">
-                <button onclick="location.href='biblioteca.html'" class="btn-back-kingdom">← VOLVER A LA
-                    BIBLIOTECA</button>
-                <button onclick="limpiarGrimorio()" class="btn-danger-soft">VACIAR GRIMORIO</button>
+                <button onclick="location.href='biblioteca.html'" class="btn-mystick-nav">
+                    <span class="icon">📖</span> VOLVER A LA BIBLIOTECA
+                </button>
             </div>
         </div>
 
-        <div id="results-info">Cartas en tu colección: <span id="card-count">0</span></div>
+        <section class="seccion-gestion">
 
+            <div class="bloque-místico">
+                <h3>⚔️ MIS MAZOS <span>(3/3)</span></h3>
+                <div class="grid-slots">
+                    <div class="slot-item" data-slot-id="mazo1">
+                        <div class="slot-info">
+                            <span class="slot-name">Mazo de Guerra 1</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('mazo1')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('mazo1')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('mazo1')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=mazo1'">GESTIONAR</button>
+                        </div>
+                    </div>
+                    <div class="slot-item" data-slot-id="mazo2">
+                        <div class="slot-info">
+                            <span class="slot-name">Mazo de Guerra 2</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('mazo2')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('mazo2')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('mazo2')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=mazo2'">GESTIONAR</button>
+                        </div>
+                    </div>
+                    <div class="slot-item" data-slot-id="mazo3">
+                        <div class="slot-info">
+                            <span class="slot-name">Mazo de Guerra 3</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('mazo3')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('mazo3')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('mazo3')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=mazo3'">GESTIONAR</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="import-box">
+                    <input type="text" id="input-copiar-id" placeholder="Pegar ID de mazo ajeno...">
+                    <button class="btn-slot-open" id="btn-copiar-id" style="background:#fff">COPIAR</button>
+                </div>
+            </div>
+
+            <div class="bloque-místico">
+                <h3>📁 MIS CARPETAS <span>(3/3)</span></h3>
+                <div class="grid-slots">
+                    <div class="slot-item" data-slot-id="carpeta1">
+                        <div class="slot-info">
+                            <span class="slot-name">Cartas para Venta</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('carpeta1')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('carpeta1')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('carpeta1')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=carpeta1'">GESTIONAR</button>
+                        </div>
+                    </div>
+                    <div class="slot-item" data-slot-id="carpeta2">
+                        <div class="slot-info">
+                            <span class="slot-name">Colección Personal</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('carpeta2')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('carpeta2')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('carpeta2')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=carpeta2'">GESTIONAR</button>
+                        </div>
+                    </div>
+                    <div class="slot-item" data-slot-id="carpeta3">
+                        <div class="slot-info">
+                            <span class="slot-name">Buscadas / Trade</span>
+                            <span class="slot-count">0 Cartas</span>
+                        </div>
+                        <div class="slot-controls">
+                            <button class="btn-slot-icon btn-share" onclick="copiarIDAlPortapapeles('carpeta3')" title="Compartir ID">🔗</button>
+                            <button class="btn-slot-icon" onclick="renombrarSlot('carpeta3')" title="Renombrar">✏️</button>
+                            <button class="btn-slot-icon btn-del" onclick="limpiarSlot('carpeta3')" title="Vaciar Slot">🗑️</button>
+                            <button class="btn-slot-open" onclick="location.href='constructor.html?slot=carpeta3'">GESTIONAR</button>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.65rem; color: #666; margin-top: 15px; text-align: center;">
+                    * Las carpetas son libres. Los mazos validan reglas de juego.
+                </p>
+            </div>
+        </section>
+
+        <section class="bloque-místico" id="seccion-copias" style="margin-top: 20px; display: none; grid-column: 1 / -1;">
+            <h3>✨ MAZOS ADQUIRIDOS</h3>
+            <div class="grid-slots" id="grid-mazos-copiados">
+                </div>
+        </section>
+
+        <div id="results-info">Cartas en vista actual: <span id="card-count">0</span></div>
         <div class="card-grid" id="card-display"></div>
     </main>
 
     <div id="card-detail-panel" class="detail-panel">
-        <button id="close-detail">×</button>
+        <button id="close-detail" aria-label="Cerrar">×</button>
         <div class="detail-content">
             <img src="" id="detail-img">
             <h2 id="detail-name"></h2>
             <p id="detail-type"></p>
             <div class="detail-hability" id="detail-text"></div>
+            <div id="save-button-container" style="margin-top: 20px;"></div>
+            <div id="related-cards-section" style="display:none; margin-top: 20px; border-top: 1px solid #444; padding-top: 10px;">
+                <p style="font-size: 0.8em; color: #aaa; margin-bottom: 10px;">CARTAS RELACIONADAS:</p>
+                <div id="related-buttons-container"></div>
+            </div>
         </div>
     </div>
 
@@ -69,6 +344,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="app.js"></script>
+    <script src="grimorio.js"></script>
 </body>
 
 </html>
