@@ -7,6 +7,77 @@
     <title>Grimorio MyL - Biblioteca de Crónicas</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Sincronización estética del botón de cierre idéntico al Grimorio */
+        #close-detail {
+            all: unset;
+            position: absolute !important;
+            top: 15px !important;
+            right: 15px !important;
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            background: #d4af37 !important;
+            border: 2px solid #000 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #000 !important;
+            font-size: 22px !important;
+            font-weight: bold !important;
+            line-height: 1 !important;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.9) !important;
+            z-index: 2100 !important;
+            cursor: pointer !important;
+            transition: 0.3s ease !important;
+            padding: 0;
+            margin: 0;
+        }
+
+        #close-detail:hover {
+            transform: scale(1.1) rotate(90deg) !important;
+            background: #fff !important;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.9) !important;
+        }
+
+        /* Clase para el botón dorado del Santuario (Consistencia con Perfil) */
+        .btn-dorado-santuario {
+            background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
+            color: #000 !important;
+            border: 1px solid #fff !important;
+            padding: 10px 20px !important;
+            font-family: 'Cinzel', serif !important;
+            font-weight: bold !important;
+            font-size: 0.8rem !important;
+            cursor: pointer !important;
+            text-transform: uppercase !important;
+            border-radius: 4px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 0 5px rgba(255,255,255,0.5) !important;
+            transition: 0.3s !important;
+            letter-spacing: 1px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            min-width: 220px;
+        }
+
+        .btn-dorado-santuario:hover {
+            background: #fff !important;
+            color: #000 !important;
+            box-shadow: 0 0 20px var(--accent) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        /* Ajuste del contenedor de contenido para permitir el botón absoluto */
+        .detail-content {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 
 <body class="body-biblioteca">
@@ -89,9 +160,13 @@
 
         <main class="content">
             <div class="top-search-bar">
-                <input type="text" id="main-search" placeholder="Buscar por nombre o habilidad...">
-                <button class="btn-folder-toggle" onclick="location.href='grimorio.html'" id="btn-view-folder"
-                    style="display: none;">MI GRIMORIO 📁</button>
+                <div class="search-wrapper">
+                    <div class="input-container">
+                        <input type="text" id="main-search" placeholder="Buscar por nombre o habilidad...">
+                        <button id="clear-search" title="Limpiar búsqueda">×</button>
+                    </div>
+                    <div id="contenedor-boton-santuario"></div>
+                </div>
             </div>
 
             <div id="results-info">REGISTROS HALLADOS: <span id="card-count">0</span></div>
@@ -101,9 +176,8 @@
 
     <div id="card-detail-panel" class="detail-panel">
         <div class="detail-content">
-            <div class="close-panel-wrapper">
-                <button id="close-detail">&times;</button>
-            </div>
+            <button id="close-detail" aria-label="Cerrar">×</button>
+
             <img src="" id="detail-img">
             <h2 id="detail-name"></h2>
             <p id="detail-type"></p>
@@ -114,15 +188,16 @@
             </div>
 
             <div class="detail-hability" id="detail-text"></div>
-            
+
             <div id="save-button-container"></div>
-            
+
             <p id="detail-illustrator" class="detail-illustrator"></p>
 
             <div id="related-cards-section" style="margin-top: 20px; width: 100%; display: none;">
                 <p style="font-size: 0.7rem; color: #888; margin-bottom: 10px; letter-spacing: 1px;">CARTAS REFERENCIALES:</p>
-                <div id="related-buttons-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                    </div>
+                <div id="related-buttons-container"
+                    style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                </div>
             </div>
         </div>
     </div>
