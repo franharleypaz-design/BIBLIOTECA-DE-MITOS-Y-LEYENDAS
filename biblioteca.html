@@ -5,46 +5,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grimorio MyL - Biblioteca de Crónicas</title>
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="banner.css?v=1102">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- ESTILOS DE BOTONES PARA CARPETAS (IMAGEN REFERENCIA) --- */
-        .folder-actions-row {
-            display: flex;
-            gap: 12px;
-            margin: 20px 0;
-            width: 100%;
-            justify-content: center;
+        /* --- AJUSTE DE LAYOUT PARA FONDO DE IMAGEN --- */
+        
+        body.body-biblioteca {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
+                              url('img/fondo-nuevo-grimorio.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: block; 
+            min-height: 100vh;
         }
 
-        .btn-folder-add {
-            flex: 1;
-            background: linear-gradient(to bottom, #d4af37, #b8860b);
-            color: #000;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 10px;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
+        .main-layout {
+            margin-top: 0 !important; 
+            min-height: 100vh;
+            display: flex;
+            background: transparent; 
+            position: relative;
+            z-index: 10;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: sticky;
+            top: 0; 
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 15px 25px 25px 25px;
+            overflow-y: auto;
+        }
+
+        /* Estilos para Cascada de Filtros */
+        .filter-group.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(1);
+            transition: all 0.4s ease;
+        }
+
+        .placeholder-text {
             font-size: 0.75rem;
-            cursor: pointer;
+            color: #888;
+            font-style: italic;
+            padding: 10px 0;
+        }
+
+        /* --- ESTILO PARA BOTÓN DE LIMPIEZA PEQUEÑO SUPERIOR --- */
+        .btn-místico-sm {
+            display: block;
+            width: auto;
+            max-width: fit-content;
+            margin: 0 auto 20px auto;
+            background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 6px 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
             border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .btn-folder-add:hover {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 15px #d4af37;
-            transform: translateY(-2px);
+        .btn-místico-sm:hover {
+            background: linear-gradient(to bottom, #d4af37, #b8860b);
+            color: #1a1a1a;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+            transform: translateY(-1px);
         }
 
-        /* --- ESTILO BOTÓN CIERRE --- */
+        #main-search {
+            width: 100%;
+            padding-right: 45px !important;
+            background: white !important;
+            color: black !important;
+            border: 2px solid #d4af37;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        .btn-dorado-santuario {
+            background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
+            color: #000 !important;
+            border: 1px solid #fff !important;
+            padding: 10px 20px !important;
+            font-family: 'Cinzel', serif !important;
+            font-weight: bold !important;
+            font-size: 0.8rem !important;
+            cursor: pointer;
+            border-radius: 4px !important;
+            min-width: 220px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .detail-panel {
+            z-index: 999999 !important;
+        }
+
         #close-detail {
             all: unset;
             position: absolute !important;
@@ -61,38 +137,97 @@
             color: #000 !important;
             font-size: 22px !important;
             font-weight: bold !important;
-            line-height: 1 !important;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.9) !important;
-            z-index: 2100 !important;
             cursor: pointer !important;
-            transition: 0.3s ease !important;
+            z-index: 2100 !important;
         }
 
-        #close-detail:hover {
-            transform: scale(1.1) rotate(90deg) !important;
-            background: #fff !important;
-        }
-
-        .btn-dorado-santuario {
+        .btn-folder-add {
+            flex: 1 !important;
             background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
             color: #000 !important;
             border: 1px solid #fff !important;
-            padding: 10px 20px !important;
+            padding: 12px 5px !important;
             font-family: 'Cinzel', serif !important;
-            font-weight: bold !important;
-            font-size: 0.8rem !important;
-            cursor: pointer !important;
-            border-radius: 4px !important;
-            transition: 0.3s !important;
-            min-width: 220px;
+            font-weight: 900 !important;
+            font-size: 0.75rem !important;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: 0.3s ease;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 5px !important;
         }
 
-        .detail-content {
-            position: relative;
+        .btn-folder-add:hover {
+            background: #fff !important;
+            box-shadow: 0 0 15px #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .folder-actions-row {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 10px;
+            margin-top: 15px;
             width: 100%;
+            justify-content: center;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000000;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(10, 10, 10, 0.95);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            animation: fadeInToast 0.4s ease forwards;
+            backdrop-filter: blur(5px);
+            pointer-events: auto;
+        }
+
+        @keyframes fadeInToast {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: 0.5s ease;
+        }
+
+        #btn-login, #user-logged {
+            display: none !important;
+            opacity: 0;
+        }
+
+        #user-logged.auth-ready {
+            display: flex !important;
+            opacity: 1 !important;
+        }
+
+        #btn-login.auth-ready {
+            display: inline-block !important;
+            opacity: 1 !important;
         }
     </style>
 </head>
@@ -100,24 +235,30 @@
 <body class="body-biblioteca">
 
     <header class="main-header">
-        <div class="header-identity-block">
-            <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
-                <img src="img/logo-Grimorio-digital.png" alt="Grimorio Digital" class="main-logo">
-                <div class="logo-text">
-                    <h1>GRIMORIO <span class="accent-on-light">DIGITAL</span></h1>
-                    <p class="subtitle">SANTUARIO DE ESTRATEGIA</p>
+        <div class="top-bar-container">
+            <div class="top-bar-right">
+                <button id="btn-login" class="btn-místico">ASCENDER</button>
+
+                <div id="user-logged">
+                    <span id="display-name-text">...</span>
+                    <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
+
+                    <div class="user-dropdown-menu" id="user-dropdown">
+                        <div class="dropdown-header-ms">
+                            <span style="font-weight: 700; color: #666; font-size: 0.8rem;">GRIMORIO DIGITAL</span>
+                            <button id="btn-logout" class="btn-cerrar-sesion-ms">Cerrar sesión</button>
+                        </div>
+
+                        <div class="dropdown-body-ms">
+                            <img id="user-photo-large" class="avatar-large-ms" src="img/avatar-default.png" alt="Avatar">
+                            <div class="user-info-ms">
+                                <h4 id="user-full-name">Gladiador</h4>
+                                <p id="user-email">...</p>
+                                <a href="perfil.html" class="link-cuenta-ms">Mi cuenta de Grimorio</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="header-action-block">
-            <button id="btn-login">ASCENDER</button>
-
-            <div id="user-logged" style="display: none;">
-                <span id="display-name-text"></span>
-                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'">
-                <button id="btn-logout" class="btn-salir">SALIR</button>
             </div>
         </div>
     </header>
@@ -126,23 +267,52 @@
 
         <aside class="sidebar" id="sidebar">
             <section class="filter-group">
-                <h3>EDICIONES</h3>
+                <h3>ERA / BLOQUE</h3>
                 <ul class="filter-list">
-                    <li><label><input type="checkbox" value="espada-sagrada"> ESPADA SAGRADA</label></li>
-                    <li><label><input type="checkbox" value="helenica"> HELÉNICA</label></li>
-                    <li><label><input type="checkbox" value="hijos-daana"> HIJOS DE DAANA</label></li>
+                    <li><label class="radio-container"><input type="radio" name="era" value="primera_era" class="filter-era"> <span class="checkmark"></span> 1ª ERA</label></li>
+                    <li><label class="radio-container"><input type="radio" name="era" value="primer_bloque" class="filter-era"> <span class="checkmark"></span> 1º BLOQUE</label></li>
+                </ul>
+            </section>
+
+            <section class="filter-group disabled" id="section-ediciones">
+                <h3>EDICIONES</h3>
+                <ul id="lista-ediciones" class="filter-list">
+                    <p class="placeholder-text">Selecciona un formato arriba...</p>
+                </ul>
+            </section>
+
+            <section class="filter-group disabled" id="section-expansiones">
+                <h3>EXPANSIÓN</h3>
+                <ul id="lista-expansiones" class="filter-list">
+                    <p class="placeholder-text">Selecciona una edición...</p>
                 </ul>
             </section>
 
             <section class="filter-group">
-                <h3>TIPOS DE CARTA</h3>
+                <h3>TIPO DE CARTA</h3>
                 <ul class="filter-list">
-                    <li><label><input type="checkbox" value="aliado"> ALIADO</label></li>
-                    <li><label><input type="checkbox" value="totem"> TÓTEM</label></li>
-                    <li><label><input type="checkbox" value="talisman"> TALISMÁN</label></li>
-                    <li><label><input type="checkbox" value="oro"> ORO</label></li>
-                    <li><label><input type="checkbox" value="arma"> ARMA</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="aliado" class="filter-type"> <span class="checkmark"></span> ALIADO</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="talisman" class="filter-type"> <span class="checkmark"></span> TALISMÁN</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="totem" class="filter-type"> <span class="checkmark"></span> TÓTEM</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="arma" class="filter-type"> <span class="checkmark"></span> ARMA</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="oro" class="filter-type"> <span class="checkmark"></span> ORO</label></li>
+                    <li><label class="radio-container"><input type="radio" name="tipo_carta" value="monumento" class="filter-type"> <span class="checkmark"></span> MONUMENTO</label></li>
                 </ul>
+            </section>
+
+            <section class="filter-group disabled" id="section-raza">
+                <h3>RAZA</h3>
+                <select id="raza-filter" class="form-control" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: 1px solid #d4af37; padding: 5px; border-radius: 4px;">
+                    <option value="">Todas las razas</option>
+                    <option value="caballero">Caballero</option>
+                    <option value="dragon">Dragón</option>
+                    <option value="faerie">Faerie</option>
+                    <option value="sombra">Sombra</option>
+                    <option value="ancestral">Ancestral</option>
+                    <option value="guerrero">Guerrero</option>
+                    <option value="sacerdote">Sacerdote</option>
+                    <option value="bestia">Bestia</option>
+                </select>
             </section>
 
             <section class="filter-group">
@@ -156,31 +326,18 @@
                     <input type="range" id="filter-fuerza" min="0" max="12" value="0">
                 </div>
             </section>
-
-            <section class="filter-group">
-                <h3>RAZAS</h3>
-                <select id="raza-filter">
-                    <option value="">Todas las razas</option>
-                    <option value="caballero">Caballero</option>
-                    <option value="dragon">Dragón</option>
-                    <option value="faerie">Faerie</option>
-                    <option value="sombra">Sombra</option>
-                    <option value="ancestral">Ancestral</option>
-                    <option value="guerrero">Guerrero</option>
-                    <option value="sacerdote">Sacerdote</option>
-                    <option value="bestia">Bestia</option>
-                </select>
-            </section>
         </aside>
 
         <main class="content">
             <div class="top-search-bar">
                 <div class="search-wrapper">
                     <div class="input-container">
-                        <input type="text" id="main-search" placeholder="Buscar por nombre o habilidad...">
-                        <button id="clear-search" title="Limpiar búsqueda">×</button>
+                        <input type="text" id="main-search" placeholder="BUSCAR POR NOMBRE, HABILIDAD O C:5 F:2...">
+                        <button id="btn-clear-search" title="Limpiar búsqueda">×</button>
                     </div>
-                    <div id="contenedor-boton-santuario"></div>
+                    <div id="contenedor-boton-santuario">
+                        <button class="btn-dorado-santuario" onclick="location.href='index.html'">VOLVER AL PORTAL</button>
+                    </div>
                 </div>
             </div>
 
@@ -192,27 +349,19 @@
     <div id="card-detail-panel" class="detail-panel">
         <div class="detail-content">
             <button id="close-detail" aria-label="Cerrar">×</button>
-
             <img src="" id="detail-img">
             <h2 id="detail-name"></h2>
             <p id="detail-type"></p>
-
             <div class="detail-references">
                 <span id="detail-id">#000</span>
                 <span id="detail-edition">EDICIÓN</span>
             </div>
-
             <div class="detail-hability" id="detail-text"></div>
-
-            <div id="save-button-container" style="width: 100%;"></div>
-
+            <div id="save-button-container" class="folder-actions-row"></div>
             <p id="detail-illustrator" class="detail-illustrator"></p>
-
             <div id="related-cards-section" style="margin-top: 20px; width: 100%; display: none;">
-                <p style="font-size: 0.7rem; color: #888; margin-bottom: 10px; letter-spacing: 1px;">CARTAS
-                    REFERENCIALES:</p>
-                <div id="related-buttons-container"
-                    style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;"></div>
+                <p class="related-title">CARTAS REFERENCIALES:</p>
+                <div id="related-buttons-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;"></div>
             </div>
         </div>
     </div>
@@ -224,7 +373,30 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script src="app.js"></script>
+    <script src="filtros.js"></script>
     <script src="biblioteca.js"></script>
+
+    <script>
+        const capsule = document.getElementById('user-logged');
+        const menu = document.getElementById('user-dropdown');
+
+        if (capsule && menu) {
+            capsule.addEventListener('click', (e) => {
+                if (e.target.closest('#btn-logout') || e.target.closest('.link-cuenta-ms')) return;
+                e.preventDefault();
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (menu && menu.classList.contains('active')) {
+                if (!menu.contains(e.target) && !capsule.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

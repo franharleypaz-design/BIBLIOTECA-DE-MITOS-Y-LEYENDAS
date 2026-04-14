@@ -6,31 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Álbum de Colección - Grimorio Digital</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="banner.css">
     <link rel="stylesheet" href="album.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- AJUSTE DE LAYOUT PARA BANNER FIJO DE 150PX --- */
+        body.body-album {
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* El álbum suele manejar sus propios scrolls internos por columna */
+            height: 100vh;
+        }
+
+        /* Desplazamos el contenedor principal debajo del banner */
+        .album-layout-container {
+            margin-top: 150px !important;
+            height: calc(100vh - 150px) !important;
+            display: grid;
+            /* Mantenemos la estructura de 3 columnas: Filtros | Galería | Lista */
+            grid-template-columns: 260px 1fr 320px; 
+            overflow: hidden;
+        }
+
+        /* Aseguramos que las columnas tengan su propio scroll si el contenido rebalsa */
+        .sidebar, .content-gallery, .right-content {
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Estilo para los botones de exhibición para que combinen con el nuevo banner */
+        .btn-exhibicion {
+            width: 100%;
+            margin-bottom: 10px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        .btn-exhibicion:hover {
+            background: var(--accent);
+            color: #000;
+        }
+    </style>
 </head>
 
 <body class="body-album modo-album">
-    <header class="main-header">
-        <div class="header-identity-block">
-            <div class="logo-container" onclick="location.href='grimorio.html'" style="cursor:pointer;">
-                <img src="img/logo-Grimorio-digital.png" alt="Grimorio Digital" class="main-logo">
-                <div class="logo-text">
-                    <h1>GRIMORIO <span class="accent-on-light">DIGITAL</span></h1>
-                    <p class="subtitle">SANTUARIO DE ESTRATEGIA</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="header-action-block">
-            <div id="user-logged">
-                <span id="display-name-text"></span>
-                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'">
-                <button id="btn-logout" class="btn-salir">SALIR</button>
+    <header class="main-header">
+        <div class="top-bar-container">
+            <div class="top-bar-right">
+                <button id="btn-login" class="btn-místico">ASCENDER</button>
+
+                <div id="user-logged" style="display: none;">
+                    <span id="display-name-text">Cargando...</span>
+                    <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
+
+                    <div class="user-dropdown-menu" id="user-dropdown">
+                        <div class="dropdown-header-ms">
+                            <span style="font-weight: 700; color: #666; font-size: 0.8rem;">GRIMORIO DIGITAL</span>
+                            <button id="btn-logout" class="btn-cerrar-sesion-ms">Cerrar sesión</button>
+                        </div>
+
+                        <div class="dropdown-body-ms">
+                            <img id="user-photo-large" class="avatar-large-ms" src="img/avatar-default.png" alt="Avatar">
+                            <div class="user-info-ms">
+                                <h4 id="user-full-name">Nombre de Usuario</h4>
+                                <p id="user-email">correo@ejemplo.com</p>
+                                <a href="perfil.html" class="link-cuenta-ms">Mi cuenta de Grimorio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -50,12 +110,13 @@
 
             <div class="filter-group">
                 <h3>BUSCADOR</h3>
-                <input type="text" id="main-search" placeholder="Nombre o Habilidad..." oninput="filtrarCartas()">
+                <input type="text" id="main-search" placeholder="Nombre o Habilidad..." oninput="filtrarCartas()" 
+                       style="width: 100%; padding: 10px; background: #000; border: 1px solid var(--accent); color: #fff; border-radius: 4px;">
             </div>
 
             <div class="filter-group">
                 <h3>FILTRAR TIPO</h3>
-                <select id="tipo-filter" onchange="filtrarCartas()">
+                <select id="tipo-filter" onchange="filtrarCartas()" style="width: 100%; padding: 8px; background: #111; color: var(--accent); border: 1px solid var(--accent);">
                     <option value="">TODOS</option>
                     <option value="Aliado">ALIADO</option>
                     <option value="Talismán">TALISMÁN</option>
@@ -67,7 +128,7 @@
 
             <div class="filter-group">
                 <h3>FILTRAR RAZA</h3>
-                <select id="raza-filter" onchange="filtrarCartas()">
+                <select id="raza-filter" onchange="filtrarCartas()" style="width: 100%; padding: 8px; background: #111; color: var(--accent); border: 1px solid var(--accent);">
                     <option value="">TODAS</option>
                     <option value="Caballero">CABALLERO</option>
                     <option value="Guerrero">GUERRERO</option>
@@ -84,21 +145,22 @@
 
         <section class="content-gallery">
             <div class="card-grid" id="card-display">
-            </div>
+                </div>
         </section>
 
         <aside class="right-content">
             <div class="deck-stats-header-album">
-                <h2 class="content-header-title">CONTENIDO</h2>
-                <div class="stats-bar-album">
-                    CARTAS TOTALES: <span id="total-cards-album">0</span>
+                <h2 class="content-header-title" style="font-family: 'Cinzel'; color: var(--accent); font-size: 1.2rem;">CONTENIDO</h2>
+                <div class="stats-bar-album" style="color: #fff; font-size: 0.8rem; margin-bottom: 15px;">
+                    CARTAS TOTALES: <span id="total-cards-album" style="font-weight: bold; color: var(--accent);">0</span>
                 </div>
             </div>
 
             <div id="deck-list-container">
-            </div>
+                </div>
 
-            <button class="btn-save-album" onclick="guardarMazoFirebase()">
+            <button class="btn-save-album" onclick="guardarMazoFirebase()" 
+                    style="width: 100%; margin-top: 20px; background: linear-gradient(to bottom, #d4af37, #b8860b); color: #000; font-weight: bold; padding: 12px; border: none; cursor: pointer; font-family: 'Cinzel'; border-radius: 4px;">
                 GUARDAR CAMBIOS EN ÁLBUM
             </button>
         </aside>

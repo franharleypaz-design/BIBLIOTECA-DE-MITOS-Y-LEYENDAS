@@ -2,9 +2,6 @@
 // BIBLIOTECA.JS - LÓGICA DE EXPLORACIÓN
 // ==========================================
 
-// Variable local para manejar los elementos del DOM de esta página
-let bibliotecaDOM = [];
-
 document.addEventListener('DOMContentLoaded', () => {
     // Esperamos a que app.js cargue el JSON global
     const checkDatos = setInterval(() => {
@@ -18,101 +15,84 @@ document.addEventListener('DOMContentLoaded', () => {
 function inicializarBiblioteca() {
     console.log("📚 Biblioteca Iniciada con", cartasMyL.length, "cartas.");
     
-    // --- LÓGICA DEL BOTÓN DE CIERRE ---
+    // --- CONFIGURACIÓN PANEL DETALLE ---
     const btnClose = document.getElementById('close-detail');
     const panel = document.getElementById('card-detail-panel');
-    
     if (btnClose && panel) {
-        btnClose.onclick = () => {
-            panel.classList.remove('active');
-        };
+        btnClose.onclick = () => panel.classList.remove('active');
     }
 
-    // Dibujamos la grilla inicial
-    dibujarGrillaBiblioteca(cartasMyL);
+    // --- RENDERIZADO INICIAL ---
+    // Usamos el motor unificado para dibujar la grilla por primera vez
+    filtrarBiblioteca(); 
     
-    // Escuchamos el buscador
-    const inputBusqueda = document.getElementById('main-search');
-    if (inputBusqueda) {
-        inputBusqueda.addEventListener('input', () => filtrarBiblioteca());
-    }
-
-    // Escuchamos Checkboxes, Selects y Rangos
-    document.querySelectorAll('.sidebar input, .sidebar select').forEach(control => {
-        control.addEventListener('change', () => filtrarBiblioteca());
-        if(control.type === 'range') control.addEventListener('input', () => filtrarBiblioteca());
-    });
-
-    // Filtro inicial por si viene algo en la URL
-    if (typeof revisarParametrosURL === "function") revisarParametrosURL();
+    // --- PROCESAR FILTRO DE URL ---
+    revisarParametrosURL();
 }
 
+/**
+ * Filtro proveniente del Portal (Index)
+ */
+function revisarParametrosURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const bloqueURL = urlParams.get('bloque'); 
+
+    if (bloqueURL) {
+        const radioEra = document.querySelector(`.filter-era[value="${bloqueURL}"]`);
+        if (radioEra) {
+            radioEra.checked = true;
+            // Disparamos el evento change para que filtros.js active la cascada
+            radioEra.dispatchEvent(new Event('change'));
+        }
+    }
+}
+
+/**
+ * FUNCIÓN MAESTRA DE FILTRADO
+ * Delega la lógica al motor estratégico de filtros.js
+ */
+function filtrarBiblioteca() {
+    if (typeof motorDeFiltradoGlobal !== 'function') {
+        console.error("❌ filtros.js no detectado.");
+        return;
+    }
+
+    // Obtenemos la lista filtrada desde el motor unificado
+    const cartasFiltradas = motorDeFiltradoGlobal(cartasMyL);
+    
+    // Renderizamos los resultados en la grilla
+    dibujarGrillaBiblioteca(cartasFiltradas);
+}
+
+/**
+ * Dibuja las cartas en el contenedor principal
+ */
 function dibujarGrillaBiblioteca(lista) {
     const display = document.getElementById('card-display');
     if (!display) return;
 
     display.innerHTML = '';
-    bibliotecaDOM = [];
-
     const fragmento = document.createDocumentFragment();
 
     lista.forEach(c => {
-        const rutaImg = `img/cartas/${c.Bloque}/${c.Carpeta_Edicion}/${c.Imagen}`;
+        // Usamos la función de rutas unificada (maneja expansiones y carpetas padre)
+        const rutaImg = obtenerRutaImagenGeneral(c);
         
         const div = document.createElement('div');
         div.className = 'card-item';
         div.innerHTML = `
             <div class="card-img-container">
                 <img src="${rutaImg}" alt="${c.Nombre}" loading="lazy" 
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="no-img-placeholder" style="display:none;"><span>${c.Nombre}</span></div>
+                     onerror="this.src='img/placeholder.png'">
             </div>
         `;
 
         div.onclick = () => abrirDetalleBiblioteca(c, rutaImg);
-
         fragmento.appendChild(div);
-        bibliotecaDOM.push({ info: c, el: div });
     });
 
     display.appendChild(fragmento);
     actualizarContador(lista.length);
-}
-
-function filtrarBiblioteca() {
-    const busqueda = document.getElementById('main-search')?.value.toLowerCase() || "";
-    const raza = document.getElementById('raza-filter')?.value.toLowerCase() || "";
-    const costeMax = parseInt(document.getElementById('filter-coste')?.value) || 10;
-    const fuerzaMin = parseInt(document.getElementById('filter-fuerza')?.value) || 0;
-
-    if (document.getElementById('val-coste')) document.getElementById('val-coste').innerText = costeMax;
-    if (document.getElementById('val-fuerza')) document.getElementById('val-fuerza').innerText = fuerzaMin;
-
-    const activos = Array.from(document.querySelectorAll('.sidebar input[type="checkbox"]:checked'))
-                         .map(i => i.value);
-
-    let visibles = 0;
-
-    bibliotecaDOM.forEach(item => {
-        const c = item.info;
-        const matchTexto = c.Nombre.toLowerCase().includes(busqueda) || 
-                          (c.Habilidad && c.Habilidad.toLowerCase().includes(busqueda));
-        const matchRaza = raza === "" || (c.Raza && c.Raza.toLowerCase() === raza);
-        const edicionNorm = (c.Carpeta_Edicion || "").toLowerCase().replace(/_/g, '-');
-        const matchEdicion = activos.length === 0 || activos.includes(edicionNorm) || activos.includes(c.Tipo.toLowerCase());
-        const nCoste = parseInt(c.Coste) || 0;
-        const nFuerza = parseInt(c.Fuerza) || 0;
-        const matchStats = nCoste <= costeMax && (c.Tipo.toLowerCase().includes('aliado') ? nFuerza >= fuerzaMin : true);
-
-        if (matchTexto && matchRaza && matchEdicion && matchStats) {
-            item.el.style.display = 'block';
-            visibles++;
-        } else {
-            item.el.style.display = 'none';
-        }
-    });
-
-    actualizarContador(visibles);
 }
 
 function actualizarContador(n) {
@@ -128,7 +108,6 @@ async function abrirDetalleBiblioteca(c, ruta) {
     const panel = document.getElementById('card-detail-panel');
     if (!panel) return;
 
-    // Setear información básica
     document.getElementById('detail-img').src = ruta;
     document.getElementById('detail-name').innerText = c.Nombre;
     
@@ -136,18 +115,19 @@ async function abrirDetalleBiblioteca(c, ruta) {
     document.getElementById('detail-type').innerText = `${c.Tipo.toUpperCase()} ${c.Raza ? '- ' + c.Raza : ''}${stats}`;
     
     document.getElementById('detail-id').innerText = c.ID;
-    document.getElementById('detail-edition').innerText = (c.Edicion || "Primera Era").toUpperCase();
+    document.getElementById('detail-edition').innerText = (c.Edicion || "Base").toUpperCase();
     document.getElementById('detail-text').innerHTML = `<div style="font-style:italic;">${c.Habilidad || "Sin habilidad."}</div>`;
+    
     if (document.getElementById('detail-illustrator')) {
         document.getElementById('detail-illustrator').innerText = `Ilustrador: ${c.Ilustrador || 'Desconocido'}`;
     }
 
-    // Inyectar Botones de Carpeta con verificación de existencia
+    // --- GESTIÓN DE BOTONES DE CARPETA (FIREBASE) ---
     const btnContainer = document.getElementById('save-button-container');
     if (btnContainer) {
         btnContainer.innerHTML = ""; 
 
-        if (usuarioActual) {
+        if (typeof usuarioActual !== 'undefined' && usuarioActual) {
             const carpetas = [
                 { id: 'carpeta1', nombre: 'VENTAS', icono: '📁' },
                 { id: 'carpeta2', nombre: 'COLECCIÓN', icono: '✨' },
@@ -157,6 +137,7 @@ async function abrirDetalleBiblioteca(c, ruta) {
             const divOpciones = document.createElement('div');
             divOpciones.className = "folder-actions-row";
 
+            // Verificar posesión de carta
             const promesas = carpetas.map(f => 
                 db.collection('usuarios').doc(usuarioActual.uid).collection('slots').doc(f.id).get()
             );
@@ -166,9 +147,7 @@ async function abrirDetalleBiblioteca(c, ruta) {
             snapshots.forEach((doc, index) => {
                 const f = carpetas[index];
                 const data = doc.exists ? doc.data() : { cartas: [] };
-                const listaCartas = data.cartas || [];
-
-                const yaLaTiene = listaCartas.some(item => item.id === c.ID);
+                const yaLaTiene = (data.cartas || []).some(item => item.id === c.ID);
 
                 if (!yaLaTiene) {
                     const btn = document.createElement('button');
@@ -179,10 +158,9 @@ async function abrirDetalleBiblioteca(c, ruta) {
                         e.stopPropagation();
                         const exito = await ejecutarEnvioACarpeta(c.ID, f.id, f.nombre);
                         if (exito) {
-                            btn.style.opacity = "0";
-                            btn.style.transform = "scale(0.8)";
+                            btn.style.opacity = "0.5";
                             btn.style.pointerEvents = "none";
-                            setTimeout(() => btn.remove(), 300);
+                            btn.innerText = "¡GUARDADA!";
                         }
                     };
                     divOpciones.appendChild(btn);
@@ -195,21 +173,22 @@ async function abrirDetalleBiblioteca(c, ruta) {
     panel.classList.add('active');
 }
 
-async function ejecutarEnvioACarpeta(id, slot, nombre) {
+async function ejecutarEnvioACarpeta(id, slot, nombreCarpeta) {
     try {
         if (typeof añadirACarpetaLibre === 'function') {
-            await añadirACarpetaLibre(id, slot, nombre);
+            await añadirACarpetaLibre(id, slot, nombreCarpeta);
             return true;
         } else {
             console.error("Error: añadirACarpetaLibre no definida en app.js");
             return false;
         }
     } catch (error) {
+        console.error("Error al ejecutar envío:", error);
         return false;
     }
 }
 
-// CIERRE DE EMERGENCIA (Por delegación de eventos)
+// Escucha global para cerrar el panel si se hace clic fuera del contenido o en el botón X
 document.addEventListener('click', (e) => {
     if (e.target.id === 'close-detail' || e.target.closest('#close-detail')) {
         const panel = document.getElementById('card-detail-panel');

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Grimorio - Grimorio Digital</title>
     <link rel="stylesheet" href="style.css">
-    <link
+    <link rel="stylesheet" href="banner.css"> <link
         href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
-        /* --- CORRECCIÓN DE SCROLL GLOBAL --- */
+        /* --- CORRECCIÓN DE SCROLL GLOBAL Y ESPACIO PARA BANNER --- */
         html,
         body.body-grimorio {
             height: auto !important;
@@ -18,7 +18,16 @@
             overflow-y: auto !important;
             overflow-x: hidden;
             display: block;
-            background-color: #000;
+            background-color: #0d0d0d; /* Unificado al fondo oscuro */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Espaciado vital para que el contenido empiece después del banner de 150px */
+        .content-grimorio {
+            margin-top: 160px !important; 
+            overflow: visible !important;
+            padding-bottom: 80px;
         }
 
         /* --- ESTILO LOGO GRIMORIO DIGITAL --- */
@@ -62,11 +71,6 @@
             color: #d4af37;
             text-shadow: 6px -4px 0 #b8860b, -4px 4px 0 #f7ef8a;
             opacity: 0.8;
-        }
-
-        .content-grimorio {
-            overflow: visible !important;
-            padding-bottom: 80px;
         }
 
         /* ESTILOS PARA MAZOS Y CARPETAS */
@@ -197,7 +201,6 @@
             background: #fff;
         }
 
-        /* --- OCULTAR BOTONES DE ENLACE EN CARPETAS Y MAZOS COPIADOS --- */
         [data-slot-id^="carpeta"] .btn-slot-icon[title*="ID"],
         .item-copiado .btn-slot-icon[title*="Sello"] {
             display: none !important;
@@ -259,22 +262,30 @@
 
 <body class="body-grimorio">
     <header class="main-header">
-        <div class="header-identity-block">
-            <div class="logo-container" onclick="location.href='grimorio.html'" style="cursor:pointer;">
-                <img src="img/logo-Grimorio-digital.png" alt="Grimorio Digital" class="main-logo">
-                <div class="logo-text">
-                    <h1>GRIMORIO <span class="accent-on-light">DIGITAL</span></h1>
-                    <p class="subtitle">SANTUARIO DE ESTRATEGIA</p>
-                </div>
-            </div>
-        </div>
+        <div class="top-bar-container">
+            <div class="top-bar-right">
+                <button id="btn-login" class="btn-místico">ASCENDER</button>
 
-        <div class="header-action-block">
-            <div id="user-logged">
-                <span id="display-name-text"></span>
-                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'">
-                <button id="btn-logout" class="btn-salir">SALIR</button>
+                <div id="user-logged" style="display: none;">
+                    <span id="display-name-text">Cargando...</span>
+                    <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
+
+                    <div class="user-dropdown-menu" id="user-dropdown">
+                        <div class="dropdown-header-ms">
+                            <span style="font-weight: 700; color: #666; font-size: 0.8rem;">GRIMORIO DIGITAL</span>
+                            <button id="btn-logout" class="btn-cerrar-sesion-ms">Cerrar sesión</button>
+                        </div>
+
+                        <div class="dropdown-body-ms">
+                            <img id="user-photo-large" class="avatar-large-ms" src="img/avatar-default.png" alt="Avatar">
+                            <div class="user-info-ms">
+                                <h4 id="user-full-name">Nombre de Usuario</h4>
+                                <p id="user-email">correo@ejemplo.com</p>
+                                <a href="perfil.html" class="link-cuenta-ms">Mi cuenta de Grimorio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>

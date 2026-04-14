@@ -4,60 +4,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grimorio MyL - El Portal del Abismo</title>
+    <title>Grimorio Digital - El Portal del Abismo</title>
+
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="banner.css?v=1101">
+    <link rel="stylesheet" href="portal.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* FONDO DINÁMICO DEL PORTAL */
+        body.body-santuario {
+            margin: 0;
+            padding: 0;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+                url('img/fondo-nuevo-grimorio.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        /* Blindaje de Interfaz (Oculto hasta que Auth responda) */
+        #btn-login, #user-logged {
+            display: none !important;
+            opacity: 0;
+        }
+
+        /* REVELACIÓN FORZADA POR JS */
+        #user-logged.auth-ready {
+            display: flex !important;
+            opacity: 1 !important;
+        }
+
+        #btn-login.auth-ready {
+            display: inline-block !important;
+            opacity: 1 !important;
+        }
+
+        /* --- 1. AISLAMIENTO DE LA CÁPSULA (CON IMAGEN) --- */
+        html body #user-logged {
+            position: relative !important;
+            z-index: 9999 !important;
+            cursor: pointer !important;
+            /* IMAGEN OBLIGATORIA AQUÍ */
+            background-image: url('img/fondo-nuevo-grimorio.png') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            border-radius: 50px !important;
+            border: 1px solid rgba(212, 175, 55, 0.8) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+            padding: 8px 18px;
+            transition: all 0.3s ease !important;
+        }
+
+        #display-name-text {
+            color: #ffffff !important;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- 2. AISLAMIENTO DEL BOTÓN (CRISTAL TRASLÚCIDO) --- */
+        /* Bloqueamos cualquier imagen heredada de banner.css o portal.css */
+        html body button#btn-login {
+            background-image: none !important; /* ELIMINA LA IMAGEN DEFINITIVAMENTE */
+            background-color: rgba(255, 255, 255, 0.1) !important; /* TRASLUCIDEZ */
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 2px solid #d4af37 !important;
+            color: #d4af37 !important;
+            padding: 10px 25px !important;
+            font-family: 'Cinzel', serif !important;
+            font-weight: 700 !important;
+            border-radius: 4px !important;
+            text-transform: uppercase !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        html body button#btn-login:hover {
+            background-color: rgba(212, 175, 55, 0.2) !important;
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+
+        /* Dropdown Menú */
+        #user-dropdown {
+            z-index: 10000 !important;
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            cursor: default;
+        }
+        #user-dropdown.active { display: flex !important; }
+
+        .main-header { position: relative; z-index: 10001; }
+        .hero-block { pointer-events: none; margin-bottom: 20px; }
+        .hero-title { pointer-events: auto; }
+    </style>
 </head>
 
-<body>
+<body class="body-santuario">
 
     <header class="main-header">
-        <div class="header-identity-block">
-            <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
-                <img src="img/logo-Grimorio-digital.png" alt="Grimorio Digital" class="main-logo">
-                <div class="logo-text">
-                    <h1>GRIMORIO <span class="accent-on-light">DIGITAL</span></h1>
-                    <p class="subtitle">SANTUARIO DE ESTRATEGIA</p>
+        <div class="top-bar-container">
+            <div class="top-bar-left"></div>
+
+            <div class="top-bar-right">
+                <button id="btn-login" class="btn-místico">ASCENDER</button>
+
+                <div id="user-logged">
+                    <span id="display-name-text">...</span>
+                    <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
+
+                    <div class="user-dropdown-menu" id="user-dropdown">
+                        <div class="dropdown-header-ms">
+                            <span style="font-weight: 700; color: #666; font-size: 0.8rem;">GRIMORIO DIGITAL</span>
+                            <button id="btn-logout" class="btn-cerrar-sesion-ms">Cerrar sesión</button>
+                        </div>
+
+                        <div class="dropdown-body-ms">
+                            <img id="user-photo-large" class="avatar-large-ms" src="img/avatar-default.png"
+                                alt="Avatar">
+                            <div class="user-info-ms">
+                                <h4 id="user-full-name">Gladiador</h4>
+                                <p id="user-email">...</p>
+                                <a href="perfil.html" class="link-cuenta-ms">Mi cuenta de Grimorio</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="header-action-block">
-            <button id="btn-login">ASCENDER</button>
-
-            <div id="user-logged" style="display: none;">
-                <span id="display-name-text"></span>
-                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'">
-                <button id="btn-logout" class="btn-salir">SALIR</button>
             </div>
         </div>
     </header>
 
-    <section class="portal-main">
-        <div class="hero-block">
-            <h2 class="hero-title">EL PORTAL DEL ABISMO</h2>
-            <a href="biblioteca.html" class="btn-explorar-all">EXPLORAR BIBLIOTECA COMPLETA</a>
-        </div>
+    <main class="portal-grid-layout">
+        <section class="column-main-content">
+            <div class="main-portal-wrapper">
+                <div class="hero-block">
+                    <h2 class="hero-title">EL PORTAL DEL ABISMO</h2>
+                </div>
 
-        <div class="ediciones-grid">
-            <h3>SELECCIONA UNA EDICIÓN</h3>
-            <div class="nav-icons-container">
-                <div class="edicion-item" onclick="location.href='biblioteca.html?edicion=espada-sagrada'">
-                    <div class="icon-circle sword"></div>
-                    <span>ESPADA SAGRADA</span>
-                </div>
-                <div class="edicion-item" onclick="location.href='biblioteca.html?edicion=helenica'">
-                    <div class="icon-circle helmet"></div>
-                    <span>HELÉNICA</span>
-                </div>
-                <div class="edicion-item" onclick="location.href='biblioteca.html?edicion=hijos-daana'">
-                    <div class="icon-circle nature"></div>
-                    <span>HIJOS DE DAANA</span>
+                <div class="cartas-centro-wrapper">
+                    <div class="arte-cartas-contenedor">
+                        <div class="carta-arte item-1" id="filter-primera-era"
+                            onclick="location.href='biblioteca.html?bloque=primera_era'">
+                            <div class="card-overlay">
+                                <span class="era-tag">1ª Era</span>
+                                <div class="card-content-info">
+                                    <h4>PRIMERA ERA</h4>
+                                    <p>Cartas aleatorias</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carta-arte item-3" id="filter-full-library"
+                            onclick="location.href='biblioteca.html'">
+                            <div class="card-overlay">
+                                <div class="card-content-info">
+                                    <h4>BIBLIOTECA</h4>
+                                    <p>Ver todo el Grimorio</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carta-arte item-2" id="filter-primer-bloque"
+                            onclick="location.href='biblioteca.html?bloque=primer_bloque'">
+                            <div class="card-overlay">
+                                <span class="era-tag">B1</span>
+                                <div class="card-content-info">
+                                    <h4>PRIMER BLOQUE</h4>
+                                    <p>Cartas aleatorias</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <div id="toast-container"></div>
 
@@ -65,6 +195,28 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="app.js"></script>
+
+    <script>
+        const capsule = document.getElementById('user-logged');
+        const menu = document.getElementById('user-dropdown');
+
+        if (capsule && menu) {
+            capsule.addEventListener('click', (e) => {
+                if (e.target.closest('#btn-logout') || e.target.closest('.link-cuenta-ms')) return;
+                e.preventDefault();
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (menu && menu.classList.contains('active')) {
+                if (!menu.contains(e.target) && !capsule.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,134 @@
+/* ===================================================
+   PORTAL DEL ABISMO (INDEX) - ESTILOS ESPECÍFICOS
+   =================================================== */
+
+/* 1. CONTENEDOR DE GRILLA Y LAYOUT */
+.body-santuario .portal-grid-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px); /* Ajuste según altura del header */
+    width: 100%;
+    padding: 20px;
+}
+
+.body-santuario .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    color: #ffffff; 
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 2px 2px 10px rgba(0,0,0,0.8);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* 2. ESTRUCTURA DE LAS CARTAS */
+.body-santuario .arte-cartas-contenedor {
+    display: flex;
+    gap: 30px; 
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.body-santuario .carta-arte {
+    width: 210px; 
+    height: 310px; 
+    background-color: #0d0d0d; 
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.body-santuario .carta-arte:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.3);
+    border-color: #fff;
+}
+
+/* 3. CARTA CENTRAL ESPECÍFICA (BIBLIOTECA) */
+#filter-full-library {
+    background-image: url('img/Grimorio-Digital.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border: 3px solid #d4af37 !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* 4. OVERLAY Y TEXTO (LEGIBILIDAD) */
+.body-santuario .card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%; /* Cubre un poco más de la mitad para suavizar el degradado */
+    background: linear-gradient(to top, 
+        rgba(0,0,0,0.95) 0%, 
+        rgba(0,0,0,0.7) 40%, 
+        transparent 100%) !important;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+    transition: height 0.3s ease;
+}
+
+.body-santuario .carta-arte:hover .card-overlay {
+    height: 65%;
+}
+
+.body-santuario .card-content-info h4 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.body-santuario .card-content-info p {
+    margin: 5px 0 0;
+    color: #d4af37;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px #000;
+    letter-spacing: 0.5px;
+}
+
+/* 5. ETIQUETAS DE ERA */
+.body-santuario .era-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(212, 175, 55, 0.95);
+    color: #000;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+    text-transform: uppercase;
+}
+
+/* 6. RESPONSIVIDAD BÁSICA */
+@media (max-width: 768px) {
+    .body-santuario .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .body-santuario .arte-cartas-contenedor {
+        gap: 20px;
+    }
+}

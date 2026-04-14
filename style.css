@@ -5,9 +5,10 @@
     --bg-dark: #0a0a0a;
     --sidebar-bg: rgba(10, 10, 10, 0.95);
     --text-color: #e0e0e0;
-    --accent: #d4af37;           /* Dorado MyL */
-    --accent-dark: #8b1a1a;      /* Rojo Lacre */
-    --header-height: 70px;
+    --accent: #d4af37;
+    /* Dorado MyL */
+    --accent-dark: #8b1a1a;
+    /* Rojo Lacre */
     --font-main: 'Cinzel', serif;
     --card-radius: 10px;
 }
@@ -18,173 +19,33 @@
 
 body {
     background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-        url('mapa-fondo.jpg') no-repeat center center fixed;
+        url('img/fondo-grimerio.png') no-repeat center center fixed;
     background-size: cover;
     color: var(--text-color);
     font-family: var(--font-main);
     margin: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; 
-    overflow: hidden; 
+  }
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-a { text-decoration: none; color: inherit; }
 /* =========================================
    2. CABECERA (MAIN HEADER) - UNIFICADO
    ========================================= */
 
-.main-header {
-    /* Fondo con textura de pergamino oscuro para dar riqueza visual */
-    background: 
-        radial-gradient(circle at center, rgba(40, 30, 20, 0.85) 0%, rgba(10, 5, 0, 1) 100%),
-        url('img/textura-pergamino-oscuro.jpg'); /* Asegúrate de tener esta imagen en tu carpeta img */
-    background-size: cover;
-    background-blend-mode: multiply;
-    
-    border-bottom: 2px solid #d4af37;
-    padding: 10px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 115px; /* Altura ajustada para el logo imponente */
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 1);
-    position: relative;
-    z-index: 1000;
-}
+
 
 /* CONTENEDOR DE IDENTIDAD */
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    cursor: pointer;
-}
 
-/* LOGO IMPONENTE (LIBRO MÍSTICO) */
-.main-logo {
-    height: 95px !important; /* Tamaño grande y notable */
-    width: auto;
-    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.logo-container:hover .main-logo {
-    transform: scale(1.08) rotate(-2deg);
-}
 
 /* TIPOGRAFÍA LABRADA MÍSTICA REFINADA */
-.logo-text h1 {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 2.8rem !important; /* Achicado ligeramente para mejor legibilidad */
-    font-weight: 700;
-    margin: 0;
-    line-height: 0.85;
-    /* Degradado dorado metálico */
-    background: linear-gradient(to bottom, #f7ef8a 0%, #d4af37 45%, #b8860b 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.8));
-}
 
-/* SUBTÍTULO ESPACIADO (MODO / SANTUARIO) */
-.logo-text .subtitle, 
-.logo-text #slot-id-display {
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem !important;
-    color: #d4af37 !important;
-    margin: 8px 0 0 5px;
-    letter-spacing: 6px; /* Espaciado ancho místico como en la referencia */
-    text-transform: uppercase;
-    font-weight: 700;
-    opacity: 0.9;
-    display: block;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
 
-/* DECORATIVO ■ */
-.accent-on-light {
-    position: relative;
-    display: inline-block;
-}
 
-.accent-on-light::after {
-    content: "■";
-    font-size: 12px;
-    color: #d4af37;
-    vertical-align: middle;
-    margin-left: 15px;
-    text-shadow: 0 0 8px #f7ef8a;
-    opacity: 0.6;
-    -webkit-text-fill-color: #d4af37;
-}
-
-/* BLOQUE DE ACCIONES */
-.header-action-block {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 100%;
-}
-
-/* BOTONES (ASCENDER / SALIR / LOGIN) */
-#btn-login, .btn-ascender, .btn-salir, .btn-místico {
-    background: linear-gradient(to bottom, #8b1a1a, #5a0000) !important;
-    border: 1px solid #d4af37 !important;
-    color: white !important;
-    padding: 10px 25px !important;
-    font-family: 'Cinzel', serif;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    font-size: 0.85rem;
-}
-
-#btn-login:hover, .btn-ascender:hover, .btn-salir:hover, .btn-místico:hover {
-    filter: brightness(1.3);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    transform: translateY(-2px);
-    color: white !important;
-}
-
-/* USUARIO LOGUEADO */
-#user-logged {
-    display: flex; /* Cambiar a flex cuando el JS lo active */
-    align-items: center;
-    gap: 15px;
-}
-
-#display-name-text {
-    color: white !important;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-family: 'Cinzel', serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-}
-
-.avatar-header {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    border: 2px solid #d4af37;
-    object-fit: cover;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.avatar-header:hover {
-    transform: scale(1.1) rotate(5deg);
-    border-color: #f7ef8a;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-}
 /* =========================================
    3. INDEX - PORTAL Y NAVEGACIÓN
    ========================================= */
@@ -195,7 +56,6 @@ a { text-decoration: none; color: inherit; }
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 60px 20px;
     gap: 40px;
     overflow-y: auto;
 }
@@ -225,16 +85,31 @@ a { text-decoration: none; color: inherit; }
     box-shadow: 0 0 20px var(--accent-dark);
 }
 
-.nav-icons-container { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+.nav-icons-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-.edicion-item { width: 140px; cursor: pointer; transition: 0.3s; text-align: center; }
+.edicion-item {
+    width: 140px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
 
 .icon-circle {
-    width: 90px; height: 90px; border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
     border: 2px solid var(--accent);
     margin: 0 auto 15px;
     background: rgba(0, 0, 0, 0.6);
-    display: flex; align-items: center; justify-content: center; transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
 }
 
 .edicion-item:hover .icon-circle {
@@ -246,11 +121,10 @@ a { text-decoration: none; color: inherit; }
 /* =========================================
    4. BIBLIOTECA - LAYOUT Y GRILLA
    ========================================= */
-.main-layout { 
-    display: flex; 
-    flex: 1; 
-    height: calc(100vh - var(--header-height)); 
-    overflow: hidden; 
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
 }
 
 .sidebar {
@@ -270,22 +144,46 @@ a { text-decoration: none; color: inherit; }
 }
 
 #main-search {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--accent);
-    padding: 12px 20px;
-    color: white;
-    font-family: var(--font-main);
-    font-size: 1rem;
-    border-radius: 4px;
-    outline: none;
-    transition: 0.3s;
+    width: 100%;
+    padding-right: 45px !important;
+    background: white !important;
+    color: black !important;
+    border: 1px solid #d4af37;
+    /* Añadimos negrita al texto que escribe el usuario */
+    font-weight: bold;
 }
 
 #main-search:focus {
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: rgba(20, 20, 20, 0.9);
     border-color: #fff;
+}
+
+#btn-clear-search {
+    position: absolute;
+    right: 12px;
+    background: var(--accent);
+    /* Fondo dorado para resaltar en el buscador */
+    border: 1px solid #000;
+    color: #000;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: none;
+    /* JS controla esto: display: flex */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    transition: 0.2s;
+    z-index: 5;
+}
+
+#btn-clear-search:hover {
+    background: #fff;
+    transform: scale(1.1) rotate(90deg);
 }
 
 #results-info {
@@ -337,7 +235,9 @@ a { text-decoration: none; color: inherit; }
     transition: 0.2s;
 }
 
-.filter-list label:hover { color: var(--accent); }
+.filter-list label:hover {
+    color: var(--accent);
+}
 
 .range-container {
     margin-bottom: 20px;
@@ -377,13 +277,19 @@ a { text-decoration: none; color: inherit; }
     text-transform: uppercase;
 }
 
-#raza-filter option { background: #0a0a0a; color: white; }
+#raza-filter option {
+    background: #0a0a0a;
+    color: white;
+}
 
 .content {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
-    background: rgba(0, 0, 0, 0.3);
+    /* Permite scroll solo en la grilla de cartas */
+    background: rgba(0, 0, 0, 0.2);
+    scrollbar-gutter: stable;
+    /* Evita que la grilla salte al aparecer el scroll */
 }
 
 .card-grid {
@@ -397,15 +303,15 @@ a { text-decoration: none; color: inherit; }
     align-items: start;
 }
 
-.card-item { 
-    cursor: pointer; 
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease; 
-    width: 100%; 
+.card-item {
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.card-item:hover { 
+.card-item:hover {
     transform: translateY(-8px);
     filter: brightness(1.1);
     z-index: 10;
@@ -413,23 +319,23 @@ a { text-decoration: none; color: inherit; }
 
 .card-img-container {
     width: 100%;
-    aspect-ratio: 2 / 2.85; 
+    aspect-ratio: 2 / 2.85;
     background: #000;
     border-radius: var(--card-radius);
     overflow: hidden;
     border: 1px solid rgba(212, 175, 55, 0.2);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    display: flex; 
-    align-items: center; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
     justify-content: center;
     position: relative;
 }
 
-.card-img-container img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    display: block; 
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 /* =========================================
@@ -437,38 +343,42 @@ a { text-decoration: none; color: inherit; }
    ========================================= */
 .detail-panel {
     position: fixed;
-    right: -100%; top: 0; bottom: 0;
+    right: -100%;
+    top: 0;
+    bottom: 0;
     width: 420px !important;
     background: rgba(12, 12, 12, 0.98);
     backdrop-filter: blur(10px);
     border-left: 3px solid var(--accent);
     z-index: 2000;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0 !important; 
+    padding: 0 !important;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    box-shadow: -15px 0 35px rgba(0,0,0,0.9);
+    box-shadow: -15px 0 35px rgba(0, 0, 0, 0.9);
 }
 
-.detail-panel.active { right: 0; }
+.detail-panel.active {
+    right: 0;
+}
 
 .detail-content {
-    position: relative; 
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 40px 30px; 
+    padding: 40px 30px;
 }
 
 #detail-img {
     width: 100% !important;
     height: auto !important;
-    max-height: 52vh; 
+    max-height: 52vh;
     object-fit: contain;
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
     margin-bottom: 20px;
 }
 
@@ -500,7 +410,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .detail-references span {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     padding: 3px 8px;
     border-radius: 4px;
     border: 1px solid rgba(212, 175, 55, 0.2);
@@ -511,7 +421,7 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.6;
     color: #ccc;
     font-style: italic;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -572,7 +482,14 @@ a { text-decoration: none; color: inherit; }
 /* =========================================
    6. PERFIL - VISTA PRINCIPAL
    ========================================= */
-.perfil-main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; overflow-y: auto; }
+.perfil-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-y: auto;
+}
 
 .perfil-card {
     background: rgba(10, 10, 10, 0.95);
@@ -586,36 +503,63 @@ a { text-decoration: none; color: inherit; }
     position: relative;
 }
 
-#perfil-view-wrapper { display: flex; width: 100%; gap: 0; align-items: stretch; }
+#perfil-view-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 0;
+    align-items: stretch;
+}
 
 .invocador-column {
     flex: 1;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-right: 40px;
 }
 
 .data-separator {
     width: 2px;
     background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-    align-self: stretch; opacity: 0.6;
+    align-self: stretch;
+    opacity: 0.6;
 }
 
 .data-column {
     flex: 1;
-    display: flex; flex-direction: column;
-    padding-left: 40px; justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    justify-content: flex-start;
 }
 
 .avatar-container-large {
-    width: 180px; height: 180px; border-radius: 50%;
-    border: 3px solid var(--accent); overflow: hidden;
-    margin-bottom: 20px; cursor: pointer; position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    overflow: hidden;
+    margin-bottom: 20px;
+    cursor: pointer;
+    position: relative;
 }
 
-.avatar-container-large img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-container-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-.card-nick { font-size: 2.2rem; color: white; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+.card-nick {
+    font-size: 2.2rem;
+    color: white;
+    margin: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
 
 .card-bio {
     font-style: italic;
@@ -628,9 +572,16 @@ a { text-decoration: none; color: inherit; }
     word-wrap: break-word;
 }
 
-.perfil-status { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+.perfil-status {
+    color: var(--accent);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
 
-.btn-large, .btn-modificar-perfil {
+.btn-large,
+.btn-modificar-perfil {
     display: block;
     width: 100%;
     max-width: 300px;
@@ -648,7 +599,8 @@ a { text-decoration: none; color: inherit; }
     text-align: center;
 }
 
-.btn-large:hover, .btn-modificar-perfil:hover {
+.btn-large:hover,
+.btn-modificar-perfil:hover {
     background: white !important;
     box-shadow: 0 0 20px var(--accent);
 }
@@ -658,7 +610,7 @@ a { text-decoration: none; color: inherit; }
    ========================================= */
 #perfil-edit-form {
     width: 100%;
-    max-width: 450px; 
+    max-width: 450px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -680,7 +632,9 @@ a { text-decoration: none; color: inherit; }
 }
 
 #perfil-edit-form .input-group {
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 #perfil-edit-form label {
@@ -690,8 +644,8 @@ a { text-decoration: none; color: inherit; }
     text-transform: uppercase;
 }
 
-#perfil-edit-form input, 
-#perfil-edit-form select, 
+#perfil-edit-form input,
+#perfil-edit-form select,
 #perfil-edit-form textarea {
     background: rgba(0, 0, 0, 0.8) !important;
     border: 1px solid #444 !important;
@@ -699,9 +653,9 @@ a { text-decoration: none; color: inherit; }
     padding: 12px !important;
     font-family: var(--font-main);
     border-radius: 4px;
-    resize: none; 
-    line-height: 1.5; 
-    overflow-y: auto; 
+    resize: none;
+    line-height: 1.5;
+    overflow-y: auto;
     white-space: pre-wrap;
 }
 
@@ -757,9 +711,10 @@ a { text-decoration: none; color: inherit; }
    8. CARPETAS, GALERÍA Y AVATARES
    ========================================= */
 .avatar-gallery {
-    display: none; 
+    display: none;
     position: fixed;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(10, 10, 10, 0.98);
     border: 2px solid var(--accent);
@@ -774,36 +729,81 @@ a { text-decoration: none; color: inherit; }
 .avatar-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px; margin-top: 20px;
-    max-height: 400px; overflow-y: auto;
+    gap: 15px;
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-.avatar-option { width: 100%; aspect-ratio: 1/1; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: 0.3s; object-fit: cover; }
-.avatar-option:hover { border-color: var(--accent); transform: scale(1.1); }
+.avatar-option {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+    object-fit: cover;
+}
 
-.avatar-loading { opacity: 0; transition: opacity 0.5s ease-in-out; }
-.avatar-loaded { opacity: 1; }
+.avatar-option:hover {
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+.avatar-loading {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.avatar-loaded {
+    opacity: 1;
+}
 
 /* =========================================
    9. ANIMACIONES Y SCROLLBAR
    ========================================= */
 @keyframes brilloAura {
-    0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.4); }
-    100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.8), 0 0 5px #fff; }
+    0% {
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.8), 0 0 5px #fff;
+    }
 }
 
 @keyframes floating {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 @keyframes fadeInElement {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
 
 /* =========================================
    10. BOTÓN CIERRE (CENTRA DO Y DORADO)
@@ -822,18 +822,18 @@ a { text-decoration: none; color: inherit; }
     font-size: 22px !important;
     font-weight: bold !important;
     cursor: pointer !important;
-    
+
     /* Centrado absoluto */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    
+
     padding: 0 !important;
     margin: 0 !important;
-    line-height: 1 !important; 
-    
+    line-height: 1 !important;
+
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.9) !important;
-    z-index: 3000 !important; 
+    z-index: 3000 !important;
     transition: 0.3s ease !important;
 }
 
@@ -846,7 +846,7 @@ a { text-decoration: none; color: inherit; }
 .btn-remove-card {
     width: 100%;
     padding: 12px;
-    background: #4a0e0e; 
+    background: #4a0e0e;
     color: #ff6666;
     border: 1px solid #ff3333;
     font-family: 'Cinzel', serif;
@@ -873,12 +873,14 @@ a { text-decoration: none; color: inherit; }
     gap: 15px;
     align-items: center;
     width: 100%;
-    max-width: 700px; /* Aquí controlas que no se vea tan larga */
+    max-width: 700px;
+    /* Aquí controlas que no se vea tan larga */
 }
 
 /* Ajuste del input de búsqueda */
 #main-search {
-    flex: 2; /* Toma el espacio disponible de forma equilibrada */
+    flex: 2;
+    /* Toma el espacio disponible de forma equilibrada */
     height: 45px;
 }
 
@@ -907,7 +909,8 @@ a { text-decoration: none; color: inherit; }
 
 .btn-goto-grimorio .icon {
     font-size: 1.2rem;
-    filter: sepia(1) saturate(5); /* Le da un tono más dorado al emoji */
+    filter: sepia(1) saturate(5);
+    /* Le da un tono más dorado al emoji */
 }
 
 .btn-goto-grimorio:hover {
@@ -927,7 +930,9 @@ a { text-decoration: none; color: inherit; }
         flex-direction: column;
         max-width: 100%;
     }
-    #main-search, .btn-goto-grimorio {
+
+    #main-search,
+    .btn-goto-grimorio {
         width: 100%;
     }
 }
@@ -935,14 +940,23 @@ a { text-decoration: none; color: inherit; }
 /* Contenedor relativo para el input y la X */
 .input-container {
     position: relative;
-    flex: 2; /* Mantiene la proporción frente al botón de Grimorio */
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 #main-search {
     width: 100%;
-    padding-right: 40px !important; /* Espacio para que el texto no tape la X */
+    padding-right: 45px !important;
+    background: white !important;
+
+    /* Texto en negro y negrita para máxima legibilidad */
+    color: black !important;
+    font-weight: 800 !important;
+    font-size: 1rem;
+    border: 2px solid #d4af37;
+    /* Borde un poco más grueso para que resalte */
+    border-radius: 6px;
 }
 
 /* El botón de limpiar (la X) */
@@ -955,7 +969,8 @@ a { text-decoration: none; color: inherit; }
     font-size: 22px;
     line-height: 1;
     cursor: pointer;
-    display: none; /* Oculto por defecto */
+    display: none;
+    /* Oculto por defecto */
     transition: 0.2s;
     font-weight: bold;
 }
@@ -1029,22 +1044,32 @@ a { text-decoration: none; color: inherit; }
 /* Contenedor de mazos adquiridos en 2 columnas */
 #grid-mazos-copiados {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas iguales */
     gap: 15px;
     padding: 10px;
-    max-height: 400px; /* Altura máxima para no romper la página */
-    overflow-y: auto;  /* Scroll si hay muchos */
+    max-height: 400px;
+    /* Altura máxima para no romper la página */
+    overflow-y: auto;
+    /* Scroll si hay muchos */
 }
 
 /* Ajuste para que los items no se vean gigantes */
 .item-copiado {
     min-height: 80px;
-    margin-bottom: 0 !important; /* El gap del grid maneja el espacio */
+    margin-bottom: 0 !important;
+    /* El gap del grid maneja el espacio */
 }
 
 /* Scrollbar mística para el panel de copias */
-#grid-mazos-copiados::-webkit-scrollbar { width: 5px; }
-#grid-mazos-copiados::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+#grid-mazos-copiados::-webkit-scrollbar {
+    width: 5px;
+}
+
+#grid-mazos-copiados::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
 
 /* Responsive: 1 columna en celulares */
 @media (max-width: 768px) {
@@ -1055,22 +1080,27 @@ a { text-decoration: none; color: inherit; }
 
 /* Asegurar que la página del grimorio permita scroll */
 .body-grimorio {
-    height: auto !important; /* Permite que la altura sea dinámica */
+    height: auto !important;
+    /* Permite que la altura sea dinámica */
     min-height: 100vh;
-    overflow-y: auto !important; /* Fuerza la aparición del scroll vertical */
-    display: block; /* Evita conflictos con flexbox si estaba activado */
+    overflow-y: auto !important;
+    /* Fuerza la aparición del scroll vertical */
+    display: block;
+    /* Evita conflictos con flexbox si estaba activado */
 }
 
 /* El contenedor principal también debe permitir scroll */
 .content-grimorio {
     overflow: visible !important;
-    padding-bottom: 50px; /* Espacio extra al final para que no choque con el borde */
+    padding-bottom: 50px;
+    /* Espacio extra al final para que no choque con el borde */
 }
 
 /* Estilo para los títulos de mazos adquiridos (reemplaza el azul feo) */
 .item-copiado .slot-name {
-    color: #ffffff !important; /* Blanco puro para el nombre */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    color: #ffffff !important;
+    /* Blanco puro para el nombre */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     font-size: 0.85rem;
     line-height: 1.2;
     display: block;
@@ -1084,15 +1114,408 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* Estilo para el prefijo "COPIA:" en dorado */
-.item-copiado .slot-name strong, 
+.item-copiado .slot-name strong,
 .item-copiado .prefijo-copia {
-    color: var(--accent) !important; /* Dorado MyL */
+    color: var(--accent) !important;
+    /* Dorado MyL */
     font-size: 0.7rem;
     letter-spacing: 1px;
 }
 
 /* Ajuste para que los nombres largos no rompan el diseño */
 .item-copiado .slot-info {
-    max-width: 70%; /* Evita que el texto choque con los botones */
+    max-width: 70%;
+    /* Evita que el texto choque con los botones */
+    
+}
+
+.sidebar select,
+#raza-filter,
+#tipo-filter {
+    width: 100%;
+    background: #121212;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 10px;
+    font-family: var(--font-main);
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.sidebar select:hover {
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+#main-search::placeholder {
+    color: #d4af37;
+    opacity: 0.8;
+    /* También ponemos en negrita el texto de sugerencia */
+    font-weight: bold;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+.action-buttons-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.action-button {
+    flex: 1;
+    background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
+    color: #000 !important;
+    border: 1px solid #fff !important;
+    padding: 12px 5px !important;
+    font-family: 'Cinzel', serif;
+    font-weight: 900 !important;
+    font-size: 0.75rem !important;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.action-button:hover {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #d4af37;
+    transform: translateY(-2px);
+}
+
+#related-cards-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    width: 100%;
+}
+
+.related-title {
+    font-size: 0.75rem;
+    color: #d4af37;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#related-buttons-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-rel-jump {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid #d4af37;
+    padding: 6px 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.btn-rel-jump:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+/* Estilo para los botones generados por el JS en el panel de detalle */
+/* Botones de Colección/Trades que genera el JS */
+.btn-folder-add {
+    flex: 1 !important;
+    background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
+    color: #000 !important;
+    border: 1px solid #fff !important;
+    padding: 12px 5px !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 900 !important;
+    font-size: 0.75rem !important;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: 0.3s ease;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 5px !important;
+}
+
+.btn-folder-add:hover {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #d4af37;
+    transform: translateY(-2px);
+}
+
+/* Contenedor de estos botones */
+.folder-actions-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999; /* Por encima de todo */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: rgba(10, 10, 10, 0.9);
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 15px 30px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+    animation: fadeInToast 0.3s ease, fadeOutToast 0.3s ease 2.7s forwards;
+    backdrop-filter: blur(5px);
+}
+
+@keyframes fadeInToast {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutToast {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Bloque de Referencias (Abajo del ilustrador) */
+#related-cards-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    width: 100%;
+    text-align: center;
+}
+
+.related-title {
+    font-size: 0.75rem;
+    color: #d4af37;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#related-buttons-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Botoncitos mísiticos de salto de carta */
+.btn-rel-jump {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid #d4af37;
+    padding: 8px 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-rel-jump:hover {
+    background: #d4af37;
+    color: #000;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}.folder-actions-row {
+    display: flex !important;
+    flex-direction: row !important; /* Los pone uno al lado del otro */
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+    justify-content: center;
+}
+
+#related-cards-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    width: 100%;
+}
+
+.related-title {
+    font-size: 0.75rem;
+    color: #d4af37;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.btn-rel-jump {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid #d4af37;
+    padding: 6px 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.btn-rel-jump:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA EL INDEX (PORTAL)
+   ========================================= */
+
+/* Solo afectará a las cartas que estén dentro de body-santuario */
+.body-santuario .carta-arte {
+    width: 210px; 
+    height: 310px; 
+    border: 2px solid #d4af37;
+    border-radius: 12px;
     overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: all 0.4s ease;
+}
+
+.body-santuario .carta-arte:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+}
+
+/* Ajuste del mensaje para que no tape el dibujo */
+.body-santuario .card-overlay {
+    background: linear-gradient(to top, 
+        rgba(0,0,0,0.9) 0%, 
+        rgba(0,0,0,0.6) 30%, 
+        transparent 100%);
+    padding: 20px 10px;
+    text-align: center;
+    height: 50%; /* Solo ocupa la mitad inferior */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.body-santuario .card-content-info h4 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+    font-size: 1.1rem;
+}
+
+.body-santuario .card-content-info p {
+    margin: 5px 0 0;
+    color: #d4af37;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Imagen específica para la carta central de Biblioteca */
+
+
+/* Ajuste opcional: si quieres que al pasar el mouse se vea un poco más la imagen */
+#filter-full-library:hover .card-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+}
+
+#filter-full-library {
+    border: 3px solid #d4af37; /* Borde un poco más grueso */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); /* Resplandor dorado constante */
+}
+
+/* ESTILO DEFINITIVO PARA LA CARTA CENTRAL */
+#filter-full-library {
+    background-color: #0d0d0d !important; /* Fondo oscuro de respaldo */
+    background-image: url('img/Grimorio-Digital.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border: 3px solid #d4af37 !important;
+}
+
+/* Evitar que el overlay sea blanco */
+.body-santuario #filter-full-library .card-overlay {
+    background: linear-gradient(to top, 
+        rgba(0,0,0,0.9) 0%, 
+        rgba(0,0,0,0.4) 40%, 
+        transparent 100%) !important;
+}
+
+/* Efecto de Nivel Bloqueado */
+.filter-group.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    filter: grayscale(1);
+    transition: all 0.4s ease;
+}
+
+/* Estilo para los Radio Buttons personalizados */
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.radio-container input { position: absolute; opacity: 0; cursor: pointer; }
+
+.checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid #d4af37;
+    border-radius: 50%;
+}
+
+.radio-container input:checked ~ .checkmark {
+    background-color: #d4af37;
+    box-shadow: 0 0 10px #d4af37;
+}
+
+.placeholder-text {
+    font-size: 0.75rem;
+    color: #666;
+    font-style: italic;
 }

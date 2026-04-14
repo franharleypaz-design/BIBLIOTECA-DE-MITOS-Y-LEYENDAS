@@ -1,0 +1,40 @@
+/* MENÚ DE USUARIO (Cápsula) */
+#user-logged {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #1a1a1a;
+    border: 1px solid #d4af37;
+    display: none; /* Se activa con la clase .active */
+    z-index: 2000;
+}
+
+.user-dropdown-menu.active {
+    display: block;
+}
+
+/* NOTIFICACIONES (TOASTS) */
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+.toast {
+    background: rgba(10, 10, 10, 0.95);
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 12px 25px;
+    margin-top: 10px;
+    animation: fadeIn 0.3s ease forwards;
+}

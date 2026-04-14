@@ -672,117 +672,89 @@ function resetearReglas() {
 // ==========================================
 
 function filtrarCartas() {
-
     const display = document.getElementById('card-display');
-
     const sidebar = document.querySelector('.sidebar');
-
     if (!display || !cartasMyL || !configMazo.bloque) return;
 
-
-
+    // 1. REGLA BASE: Filtrar por Era/Bloque seleccionado
     const edicionesPermitidas = BLOQUES[configMazo.bloque].map(e => e.toLowerCase().trim());
 
-
-
     let fuente = cartasMyL.filter(c => {
-
         const edicionNorm = (c.Carpeta_Edicion || "").toLowerCase().trim();
-
         return edicionesPermitidas.includes(edicionNorm);
-
     });
 
-
-
+    // 2. FASE ORO INICIAL: Reglas estrictas de creación
     if (faseOroInicial) {
-
-        // REGLA: OCULTAR SIDEBAR TOTALMENTE
-
         if (sidebar) {
-
             sidebar.classList.add('sidebar-hidden');
-
-            sidebar.style.display = "none"; // FUERZA DESAPARICIÓN
-
+            sidebar.style.display = "none"; 
         }
-
-
 
         fuente = fuente.filter(c => {
-
             const tipo = (c.Tipo || "").toLowerCase();
-
             const habilidad = (c.Habilidad || "").trim().toLowerCase();
-
             const esOro = tipo.includes('oro');
-
+            // Un oro inicial debe ser básico (sin habilidad o texto muy corto)
             const sinHabilidadReal = habilidad === "" || habilidad === "-" || habilidad === "sin habilidad" || habilidad.length < 12;
-
             return esOro && sinHabilidadReal;
-
         });
 
-
-
         if (fuente.length === 0) {
-
             display.innerHTML = `<div class="lock-message" style="position:static; color: #ff6666; border:none;">NO SE ENCONTRARON OROS INICIALES LEGALES EN ESTE BLOQUE.</div>`;
-
             return;
-
         }
-
         mostrarNotificacion("ETAPA 1: ELIGE TU ORO INICIAL", "👑");
 
     } else {
-
-        // REGLA: MOSTRAR SIDEBAR
-
+        // 3. FASE CONSTRUCCIÓN: Liberar filtros avanzados
         if (sidebar) {
-
             sidebar.classList.remove('sidebar-hidden');
-
-            sidebar.style.display = "block"; // FUERZA APARICIÓN
-
+            sidebar.style.display = "block";
             sidebar.style.visibility = "visible";
-
         }
 
-
-
+        // Capturamos los nuevos inputs de la interfaz
         const busqueda = (document.getElementById('main-search')?.value || "").toLowerCase();
-
         const tipoFiltro = document.getElementById('tipo-filter')?.value || "";
+        const razaFiltro = document.getElementById('raza-filter')?.value || "";
+        const costeMax = parseInt(document.getElementById('filter-coste')?.value) || 10;
+        const fuerzaMin = parseInt(document.getElementById('filter-fuerza')?.value) || 0;
 
-
+        // Actualizamos etiquetas visuales de los sliders
+        if (document.getElementById('val-coste')) document.getElementById('val-coste').innerText = costeMax;
+        if (document.getElementById('val-fuerza')) document.getElementById('val-fuerza').innerText = fuerzaMin;
 
         fuente = fuente.filter(c => {
-
-            if (configMazo.formato.includes('racial') && (c.Tipo || "").includes('Aliado')) {
-
+            // A. REGLA RACIAL: Si el formato es racial, forzar la raza elegida en Aliados
+            if (configMazo.formato.includes('racial') && (c.Tipo || "").toLowerCase().includes('aliado')) {
                 if (c.Raza !== configMazo.raza) return false;
-
             }
 
-            if (tipoFiltro && !(c.Tipo || "").includes(tipoFiltro)) return false;
-
-
-
+            // B. FILTRO POR TEXTO: Busca en Nombre Y Habilidad (Utilidad Estratégica)
             const nombre = (c.Nombre || "").toLowerCase();
-
             const hab = (c.Habilidad || "").toLowerCase();
+            const matchTexto = nombre.includes(busqueda) || hab.includes(busqueda);
 
-            return nombre.includes(busqueda) || hab.includes(busqueda);
+            // C. FILTRO POR TIPO: (Aliado, Talismán, etc.)
+            const matchTipo = !tipoFiltro || (c.Tipo || "").includes(tipoFiltro);
 
+            // D. FILTRO POR RAZA: (Adicional al formato, si el usuario quiere buscar otra raza específica)
+            const matchRaza = !razaFiltro || (c.Raza && c.Raza.toLowerCase() === razaFiltro.toLowerCase());
+
+            // E. FILTRO POR ESTADÍSTICAS: Coste y Fuerza
+            const nCoste = parseInt(c.Coste) || 0;
+            const nFuerza = parseInt(c.Fuerza) || 0;
+            const matchCoste = nCoste <= costeMax;
+            // Solo exigimos fuerza mínima si es Aliado, el resto de cartas pasan este filtro siempre
+            const matchFuerza = (c.Tipo || "").toLowerCase().includes('aliado') ? nFuerza >= fuerzaMin : true;
+
+            return matchTexto && matchTipo && matchRaza && matchCoste && matchFuerza;
         });
-
     }
 
     dibujarCartasConstructor(fuente);
-
 }
-
 
 
 

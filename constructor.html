@@ -7,29 +7,41 @@
     <title>Constructor de Estrategia - Grimorio Digital</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="banner.css">
     <link rel="stylesheet" href="constructor.css">
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
         rel="stylesheet">
 
     <style>
-        /* --- ESTILO HEADER UNIFICADO --- */
-        .main-header {
-            background: linear-gradient(to right, #0a0a0a, #1a1a1a, #0a0a0a);
-            border-bottom: 2px solid #d4af37;
-            padding: 10px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 80px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        /* --- AJUSTE POSICIONAMIENTO PARA BANNER FIJO --- */
+        body.body-constructor {
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            height: 100vh;
         }
 
-        .main-logo {
-            height: 65px;
-            width: auto;
-            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+        /* Espacio para el banner de 150px sin romper el grid del constructor */
+        .constructor-layout {
+            margin-top: 150px !important; 
+            height: calc(100vh - 150px) !important;
+            display: grid;
+            grid-template-columns: 250px 1fr 350px; 
+            overflow: hidden;
+        }
+
+        .sidebar, .deck-builder-panel, .content-scroll {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .setup-rules-panel {
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid var(--accent);
+            padding: 15px 40px;
         }
 
         .logo-text h1 {
@@ -74,61 +86,35 @@
 <body class="body-constructor">
 
     <header class="main-header">
-        <div class="header-identity-block">
-            <div class="logo-container" onclick="location.href='grimorio.html'" style="cursor:pointer;">
-                <img src="img/logo-Grimorio-digital.png" alt="Grimorio Digital" class="main-logo">
-                <div class="logo-text">
-                    <h1>GRIMORIO <span class="accent-on-light">DIGITAL</span></h1>
-                    <p class="subtitle">SANTUARIO DE ESTRATEGIA</p>
-                </div>
-            </div>
-        </div>
+        <div class="top-bar-container">
+            <div class="top-bar-right">
+                <button id="btn-login" class="btn-místico">ASCENDER</button>
 
-        <div class="header-action-block">
-            <div id="user-logged">
-                <span id="display-name-text"></span>
-                <img id="user-photo" class="avatar-header" src="img/avatar-default.png"
-                    onclick="location.href='perfil.html'">
-                <button id="btn-logout" class="btn-salir">SALIR</button>
+                <div id="user-logged" style="display: none;">
+                    <span id="display-name-text">Cargando...</span>
+                    <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
+
+                    <div class="user-dropdown-menu" id="user-dropdown">
+                        <div class="dropdown-header-ms">
+                            <span style="font-weight: 700; color: #666; font-size: 0.8rem;">GRIMORIO DIGITAL</span>
+                            <button id="btn-logout" class="btn-cerrar-sesion-ms">Cerrar sesión</button>
+                        </div>
+
+                        <div class="dropdown-body-ms">
+                            <img id="user-photo-large" class="avatar-large-ms" src="img/avatar-default.png" alt="Avatar">
+                            <div class="user-info-ms">
+                                <h4 id="user-full-name">Nombre de Usuario</h4>
+                                <p id="user-email">correo@ejemplo.com</p>
+                                <a href="perfil.html" class="link-cuenta-ms">Mi cuenta de Grimorio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <main class="constructor-layout">
-
-        <div id="setup-mazo" class="setup-rules-panel">
-            <h2 id="setup-instruction" class="setup-main-title">ESTABLECE LAS REGLAS DEL REINO PARA DESBLOQUEAR EL
-                GRIMORIO</h2>
-
-            <div class="setup-controls-row">
-                <span class="label-icon">⚖️ REGLAS DEL REINO:</span>
-
-                <select id="select-bloque" onchange="actualizarSetup()">
-                    <option value="">1. ELEGIR ERA...</option>
-                    <option value="primera-era">PRIMERA ERA (Reto a Dragón)</option>
-                    <option value="segunda-era">SEGUNDA ERA (Espada a Ra)</option>
-                </select>
-
-                <select id="select-formato" style="display: none;" onchange="actualizarSetup()">
-                    <option value="">2. ELEGIR FORMATO...</option>
-                    <option value="libre">FORMATO LIBRE</option>
-                    <option value="racial-libre">RACIAL LIBRE</option>
-                    <option value="racial-edicion">RACIAL EDICIÓN</option>
-                </select>
-
-                <select id="select-raza" style="display: none;" onchange="actualizarSetup()">
-                    <option value="">3. ELEGIR RAZA...</option>
-                    <option value="Caballero">CABALLERO</option>
-                    <option value="Guerrero">GUERRERO</option>
-                    <option value="Mago">MAGO</option>
-                    <option value="Sacerdote">SACERDOTE</option>
-                    <option value="Sombra">SOMBRA</option>
-                    <option value="Bestia">BESTIA</option>
-                    <option value="Dragón">DRAGÓN</option>
-                    <option value="Faerie">FAERIE</option>
-                </select>
-            </div>
-        </div>
 
         <aside class="sidebar sidebar-hidden">
             <div id="buscador-lateral-content">
@@ -176,10 +162,56 @@
                         <option value="Faerie">FAERIE</option>
                     </select>
                 </div>
+
+                <div class="filter-group">
+                    <h3>ESTADÍSTICAS</h3>
+                    <div class="range-container">
+                        <label>Coste Máx: <span id="val-coste">10</span></label>
+                        <input type="range" id="filter-coste" min="0" max="10" value="10" oninput="filtrarCartas()">
+                    </div>
+                    <div class="range-container">
+                        <label>Fuerza Mín: <span id="val-fuerza">0</span></label>
+                        <input type="range" id="filter-fuerza" min="0" max="12" value="0" oninput="filtrarCartas()">
+                    </div>
+                </div>
             </div>
         </aside>
 
         <section class="content-scroll">
+            <div id="setup-mazo" class="setup-rules-panel">
+                <h2 id="setup-instruction" class="setup-main-title">ESTABLECE LAS REGLAS DEL REINO PARA DESBLOQUEAR EL
+                    GRIMORIO</h2>
+
+                <div class="setup-controls-row">
+                    <span class="label-icon">⚖️ REGLAS DEL REINO:</span>
+
+                    <select id="select-bloque" onchange="actualizarSetup()">
+                        <option value="">1. ELEGIR ERA...</option>
+                        <option value="primera-era">PRIMERA ERA (Reto a Dragón)</option>
+                        <option value="segunda-era">SEGUNDA ERA (Espada a Ra)</option>
+                    </select>
+
+                    <select id="select-formato" style="display: none;" onchange="actualizarSetup()">
+                        <option value="">2. ELEGIR FORMATO...</option>
+                        <option value="libre">FORMATO LIBRE</option>
+                        <option value="racial-libre">RACIAL LIBRE</option>
+                        <option value="racial-edicion">RACIAL EDICIÓN</option>
+                    </select>
+
+                    <select id="select-raza" style="display: none;" onchange="actualizarSetup()">
+                        <option value="">3. ELEGIR RAZA...</option>
+                        <option value="Caballero">CABALLERO</option>
+                        <option value="Guerrero">GUERRERO</option>
+                        <option value="Mago">MAGO</option>
+                        <option value="Sacerdote">SACERDOTE</option>
+                        <option value="Sombra">SOMBRA</option>
+                        <option value="Bestia">BESTIA</option>
+                        <option value="Dragón">DRAGÓN</option>
+                        <option value="Faerie">FAERIE</option>
+                    </select>
+                </div>
+            </div>
+
             <div id="lock-overlay" class="lock-screen"></div>
             <div class="card-grid" id="card-display"></div>
         </section>
@@ -271,6 +303,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script src="app.js"></script>
+    <script src="filtros.js"></script>
     <script src="constructor.js"></script>
 </body>
 
