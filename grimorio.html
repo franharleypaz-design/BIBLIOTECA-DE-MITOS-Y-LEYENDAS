@@ -12,10 +12,58 @@
     <link rel="stylesheet" href="grimorio.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 1. BLINDAJE DE BOTONES: Ocultos por defecto para esperar respuesta de Firebase */
+        #btn-login, #user-logged {
+            display: none !important;
+            opacity: 0;
+        }
+
+        /* Revelación mediante clase activada por app.js */
+        #btn-login.auth-ready { display: inline-block !important; opacity: 1 !important; }
+        #user-logged.auth-ready { display: flex !important; opacity: 1 !important; }
+
+        /* 2. HEADER Y POSICIONAMIENTO DEL LOGO */
+        .main-header {
+            position: relative;
+            width: 100%;
+            height: 80px; 
+            display: flex !important;
+            align-items: center;
+            z-index: 1000;
+            background: transparent;
+            cursor: default; /* El header completo ya no es link */
+        }
+
+        .top-bar-left { position: relative; height: 100%; flex: 1; }
+        
+        /* Área de clic invisible exactamente sobre el logo */
+        .logo-click-area {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 80px; 
+            width: 300px; 
+            height: 80px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .top-bar-right { 
+            position: relative; 
+            z-index: 20000 !important; 
+            margin-left: auto;
+            padding-right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
 </head>
 
 <body class="body-grimorio">
-    <header class="main-header" onclick="location.href='biblioteca.html'">
+    <header class="main-header">
         <div class="header-banner-wrapper">
             <div class="banner-ornament-left"></div>
             <div class="banner-content-central">
@@ -25,11 +73,15 @@
             <div class="banner-ornament-right"></div>
         </div>
 
-        <div class="top-bar-container">
-            <div class="top-bar-right">
+        <div class="top-bar-container" style="width: 100%; display: flex; align-items: center;">
+            <div class="top-bar-left">
+                <a href="biblioteca.html" class="logo-click-area" title="Volver a la Biblioteca"></a>
+            </div>
+
+            <div class="top-bar-right" onclick="event.stopPropagation();">
                 <button id="btn-login" class="btn-místico">ASCENDER</button>
 
-                <div id="user-logged" style="display: none;">
+                <div id="user-logged">
                     <span id="display-name-text">Cargando...</span>
                     <img id="user-photo" class="avatar-header" src="img/avatar-default.png" alt="Avatar">
 
