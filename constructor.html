@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="banner.css?v=1102">
     <link rel="stylesheet" href="constructor.css">
+    <link rel="stylesheet" href="estadisticas-avanzadas.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -49,7 +50,7 @@
             gap: 15px;
         }
 
-        /* 3. REESTRUCTURACIÓN DEL LAYOUT */
+        /* 3. REESTRUCTURACIÓN DEL LAYOUT BASE */
         .constructor-layout {
             margin-top: 80px !important; 
             height: calc(100vh - 80px) !important;
@@ -64,13 +65,12 @@
             box-sizing: border-box;
         }
 
-        /* ASIGNACIÓN DE ÁREAS */
         .setup-rules-panel { grid-area: rules !important; margin-bottom: 0; z-index: 101; }
         .sidebar { grid-area: sidebar !important; }
         .content-scroll { grid-area: main !important; position: relative; }
         .deck-builder-panel { grid-area: deck !important; }
 
-        /* 4. ESTILOS DE FILTROS (SIDEBAR COLAPSABLE) */
+        /* 4. SIDEBAR DINÁMICA */
         .sidebar {
             background: rgba(10, 10, 10, 0.9) !important;
             border-right: 1px solid rgba(212, 175, 55, 0.3) !important;
@@ -91,12 +91,6 @@
             pointer-events: auto !important;
         }
 
-        /* DISEÑO DE GRUPO COLAPSABLE */
-        .filter-group { 
-            margin-bottom: 10px; 
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-        
         .filter-group-header {
             display: flex;
             justify-content: space-between;
@@ -117,68 +111,7 @@
             padding: 0 !important;
         }
 
-        .filter-group-header::after {
-            content: '▼';
-            font-size: 0.6rem;
-            color: #d4af37;
-            transition: transform 0.3s ease;
-        }
-
-        .filter-group.active .filter-group-header::after {
-            transform: rotate(180deg);
-        }
-
-        .filter-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.3s ease;
-            padding: 0 5px;
-        }
-
-        .filter-group.active .filter-content {
-            max-height: 500px; 
-            padding-bottom: 15px;
-        }
-
-        .filter-list { list-style: none; padding: 0; margin: 0; }
-
-        .radio-container {
-            display: flex;
-            align-items: center;
-            color: #ccc;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .radio-container input { display: none; }
-        .checkmark {
-            width: 12px;
-            height: 12px;
-            border: 1px solid #d4af37;
-            border-radius: 50%;
-            margin-right: 12px;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .radio-container input:checked + .checkmark {
-            background: #d4af37;
-            box-shadow: 0 0 8px #d4af37;
-        }
-
-        .form-control-místico {
-            width: 100%;
-            background: #000;
-            color: #d4af37;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            border-radius: 4px;
-        }
+        .filter-group-header::after { display: none !important; }
 
         #main-search {
             width: 100%;
@@ -192,15 +125,18 @@
             box-sizing: border-box;
         }
 
-        /* --- NUEVOS INDICADORES DE ESTADO (ESTRATEGIA) --- */
-        .status-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
-        .dot-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 5px; }
-        .status-good { color: #2ecc71 !important; }
-        .status-warn { color: #f1c40f !important; }
-        .status-danger { color: #e74c3c !important; }
-        .dot-good { background: #2ecc71; box-shadow: 0 0 5px #2ecc71; }
-        .dot-warn { background: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
-        .dot-danger { background: #e74c3c; box-shadow: 0 0 5px #e74c3c; }
+        /* LÓGICA DE VISIBILIDAD */
+        .view-mode-stats { display: none !important; }
+        body.modo-album .view-mode-builder { display: none !important; }
+        body.modo-album .view-mode-stats { display: block !important; }
+
+        .status-danger-text { color: #ff6666 !important; }
+        .status-ok-text { color: #2ecc71 !important; }
+
+        /* AJUSTE PARA BAJAR EL CONTENIDO DE ESTADÍSTICAS */
+        .stats-pro-container {
+            padding-top: 40px !important; /* Baja el título y el contenido */
+        }
     </style>
 </head>
 
@@ -238,22 +174,32 @@
     <main class="constructor-layout">
 
         <aside class="sidebar sidebar-hidden" id="sidebar" style="display: none;">
-            
             <section class="filter-group active">
                 <div class="filter-group-header">
                     <h3>VISTA ACTUAL</h3>
                 </div>
                 <div class="filter-content">
-                    <button id="btn-ver-mazo" class="btn-místico" 
+                    <button class="btn-místico view-mode-stats" 
                             style="width: 100%; background: #fff; color: #000; margin-bottom: 10px; font-weight: bold; border: 1px solid #d4af37;" 
-                            onclick="toggleViewMode()">
+                            onclick="cambiarVista('builder')">
+                        ⚔️ VOLVER A CONSTRUIR
+                    </button>
+
+                    <div class="view-mode-stats" style="padding: 15px; color: #d4af37; font-size: 0.75rem; text-align: center; border: 1px solid #d4af37; margin-top: 10px; font-family: 'Cinzel', serif; background: rgba(212, 175, 55, 0.1);">
+                        <p>📊 MODO ANÁLISIS ACTIVO</p>
+                        <small style="opacity: 0.7; display: block; margin-top: 5px;">MODIFICACIÓN DESACTIVADA</small>
+                    </div>
+
+                    <button id="btn-ver-mazo" class="btn-místico view-mode-builder" 
+                            style="width: 100%; background: #fff; color: #000; margin-bottom: 10px; font-weight: bold; border: 1px solid #d4af37;" 
+                            onclick="cambiarVista('stats')">
                         🗂️ VER MI MAZO
                     </button>
                 </div>
             </section>
 
-            <section class="filter-group active">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
+            <section class="filter-group active view-mode-builder">
+                <div class="filter-group-header">
                     <h3>BUSCADOR</h3>
                 </div>
                 <div class="filter-content">
@@ -263,65 +209,24 @@
                 </div>
             </section>
 
-            <section class="filter-group active" id="section-era-info">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
-                    <h3>ERA SELECCIONADA</h3>
+            <section class="filter-group active view-mode-builder">
+                <div class="filter-group-header">
+                    <h3>ANÁLISIS AVANZADO</h3>
                 </div>
                 <div class="filter-content">
-                    <ul class="filter-list">
-                        <li><label class="radio-container"><input type="radio" name="era" value="primera-era" disabled> <span class="checkmark"></span> 1ª ERA</label></li>
-                        <li><label class="radio-container"><input type="radio" name="era" value="segunda-era" disabled> <span class="checkmark"></span> 2ª ERA</label></li>
-                    </ul>
+                    <button class="btn-místico" 
+                            style="width: 100%; background: linear-gradient(to bottom, #d4af37, #b8860b); color: #000; font-weight: bold; border: 1px solid #f7ef8a;" 
+                            onclick="cambiarVista('stats')">
+                        📊 ESTADÍSTICAS COMPLETAS
+                    </button>
                 </div>
             </section>
 
-            <section class="filter-group active" id="section-tipo-carta">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
-                    <h3>TIPO DE CARTA</h3>
-                </div>
-                <div class="filter-content">
-                    <ul class="filter-list">
-                        <li><label class="radio-container"><input type="radio" name="tipo_carta" value="aliado" onchange="filtrarCartas()"> <span class="checkmark"></span> ALIADO</label></li>
-                        <li><label class="radio-container"><input type="radio" name="tipo_carta" value="talisman" onchange="filtrarCartas()"> <span class="checkmark"></span> TALISMÁN</label></li>
-                        <li><label class="radio-container"><input type="radio" name="tipo_carta" value="totem" onchange="filtrarCartas()"> <span class="checkmark"></span> TÓTEM</label></li>
-                        <li><label class="radio-container"><input type="radio" name="tipo_carta" value="arma" onchange="filtrarCartas()"> <span class="checkmark"></span> ARMA</label></li>
-                        <li><label class="radio-container"><input type="radio" name="tipo_carta" value="oro" onchange="filtrarCartas()"> <span class="checkmark"></span> ORO</label></li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="filter-group disabled" id="section-ediciones">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
-                    <h3>EDICIONES</h3>
-                </div>
-                <div class="filter-content">
-                    <ul id="lista-ediciones" class="filter-list"></ul>
-                </div>
-            </section>
-
-            <section class="filter-group disabled" id="section-expansiones">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
-                    <h3>EXPANSIÓN</h3>
-                </div>
-                <div class="filter-content">
-                    <ul id="lista-expansiones" class="filter-list"></ul>
-                </div>
-            </section>
-
-            <section class="filter-group" id="section-raza" style="display:none;">
-                <div class="filter-group-header" onclick="this.parentElement.classList.toggle('active')">
-                    <h3>RAZA</h3>
-                </div>
-                <div class="filter-content">
-                    <select id="raza-filter" class="form-control-místico" disabled>
-                        <option value="">Cargando Raza...</option>
-                    </select>
-                </div>
-            </section>
+            <div id="filtros-dinamicos-sidebar"></div>
         </aside>
 
         <div id="setup-mazo" class="setup-rules-panel">
-            <h2 id="setup-instruction" class="setup-main-title">INICIANDO GRIMORIO...</h2>
+            <h2 id="setup-instruction" class="setup-main-title">ESTABLECE LAS REGLAS DEL REINO PARA CONSTRUIR</h2>
             <div class="setup-controls-row">
                 <span class="label-icon">⚖️ REGLAS:</span>
                 <select id="select-bloque" onchange="actualizarSetup()">
@@ -351,13 +256,143 @@
 
         <section class="content-scroll">
             <div id="lock-overlay" class="lock-screen"></div>
-            <div class="card-grid" id="card-display"></div>
+
+            <div id="vista-builder">
+                <div id="card-display" class="card-grid"></div>
+            </div>
+
+            <section id="vista-estadisticas-completas" class="stats-view-overlay" style="display: none;">
+                <div class="stats-pro-container">
+                    <header class="stats-pro-header">
+                        <h1>ESTADÍSTICAS AVANZADAS <span>(DASHBOARD PRO TACTICAL)</span></h1>
+                    </header>
+
+                    <div class="stats-top-bar">
+                        <div class="castle-title-box">
+                            <span class="label">MI CASTILLO</span>
+                            <span id="full-total-count" class="count">(0)</span>
+                        </div>
+                        <div id="stats-cartas-carousel" class="stats-carousel">
+                        </div>
+                    </div>
+
+                    <main class="stats-pro-grid">
+                        <div class="stats-col">
+                            <div class="stats-widget card-blue" id="w-consistencia">
+                                <h3>CONSISTENCIA REAL <span>(Fidelity Pro)</span></h3>
+                                <div class="widget-content">
+                                    <div class="main-label">Calificación: <span class="text-high" id="res-consistencia-val">ALTA</span></div>
+                                    <ul class="check-list" id="list-consistencia">
+                                        <li><i class="check">✔</i> 3 copias promedio por carta</li>
+                                        <li><i class="check">✔</i> Buen motor de robo</li>
+                                        <li><i class="check">✔</i> Curva balanceada</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget card-red" id="w-dependencia">
+                                <h3>DEPENDENCIA DEL MAZO</h3>
+                                <div class="widget-content">
+                                    <p id="txt-dependencia">Alta dependencia de aliados<br>Baja dependencia de talismanes<br>Sin dependencia de combos</p>
+                                    <div class="alert-box">
+                                        <strong>Dependencia crítica:</strong> <span id="res-dep-critica">Analizando...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-col">
+                            <div class="stats-widget card-gold" id="w-presion">
+                                <h3>PRESIÓN REAL <span>(Ofensiva Detallada)</span></h3>
+                                <div class="widget-content">
+                                    <div class="progress-group">
+                                        <label>Early Game (T1-T2): <span id="val-presion-early">--</span></label>
+                                        <div class="bar-bg"><div id="bar-presion-early" class="bar-fill" style="width: 0%;"></div></div>
+                                    </div>
+                                    <div class="progress-group">
+                                        <label>Mid Game (T3-T4): <span id="val-presion-mid">--</span></label>
+                                        <div class="bar-bg"><div id="bar-presion-mid" class="bar-fill" style="width: 0%;"></div></div>
+                                    </div>
+                                    <div class="progress-group">
+                                        <label>Late Game (T5+): <span id="val-presion-late">--</span></label>
+                                        <div class="bar-bg"><div id="bar-presion-late" class="bar-fill" style="width: 0%;"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget card-dark" id="w-balance">
+                                <h3>BALANCE DEL MAZO</h3>
+                                <div class="widget-content">
+                                    <div class="data-row">Aliados: <span id="res-bal-aliados">--</span></div>
+                                    <div class="data-row">Oros: <span id="res-bal-oros">--</span></div>
+                                    <div class="data-row">Otros: <span id="res-bal-otros">--</span></div>
+                                    <hr style="border: 0; border-top: 1px solid rgba(212,175,55,0.2); margin: 10px 0;">
+                                    <div class="efficiency-box">
+                                        <strong>Eficiencia de Coste:</strong>
+                                        <p>Coste Promedio: <span id="res-coste-prom">0.00</span></p>
+                                        <p>Retorno Fuerza: <span id="res-retorno-fuerza">--</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-col">
+                            <div class="stats-widget card-cyan" id="w-sinergia">
+                                <h3>SINERGIA REAL <span id="full-sinergia-pct" style="float:right;">% Gral: 0%</span></h3>
+                                <div class="widget-content">
+                                    <ul class="check-list" id="list-sinergia-pro">
+                                        <li>Analizando núcleo...</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget card-orange" id="w-riesgos">
+                                <h3>RIESGOS DETECTADOS</h3>
+                                <div class="widget-content">
+                                    <ul class="error-list" id="full-riesgos-list">
+                                        <li>No se detectan riesgos críticos</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget card-red-glow" id="w-wincondition">
+                                <h3>WIN CONDITION</h3>
+                                <div class="widget-content">
+                                    <p id="res-win-desc" style="font-size: 0.85rem; color: #fff;">Analizando condición...</p>
+                                    <p id="res-win-arquetipo-tag" style="margin-top: 5px; color: #d4af37; font-weight: bold;"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-col">
+                            <div class="stats-widget card-blue-dark" id="w-probabilidades">
+                                <h3>PROBABILIDADES AVANZADAS</h3>
+                                <div class="widget-content">
+                                    <div class="prob-item">Robar Oro T1: <span id="prob-oro-t1" style="float:right;">0%</span></div>
+                                    <div class="prob-item">Robar Aliado T1: <span id="prob-aliado-t1" style="float:right;">0%</span></div>
+                                    <div class="prob-item">Control antes T3: <span id="prob-ctrl-t3" style="float:right;">0%</span></div>
+                                    <div class="prob-item">Carta Clave antes T5: <span id="prob-key-t5" style="float:right;">0%</span></div>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget card-arquetipo" id="w-arquetipo">
+                                <h3>ARQUETIPO Y SUBTIPO</h3>
+                                <div class="widget-content">
+                                    <h4 id="res-arquetipo-main">--</h4>
+                                    <p id="res-subtipo-val">Subtipo: --</p>
+                                </div>
+                            </div>
+
+                            <button class="btn-volver-gold" onclick="cambiarVista('builder')">VOLVER</button>
+                        </div>
+                    </main>
+                </div>
+            </section>
         </section>
 
         <aside class="deck-builder-panel">
             <div class="deck-stats-header">
-                <h3 style="font-family: 'Cinzel Decorative', serif; color: var(--accent);">MI ESTRATEGIA</h3>
-                
+                <h3>MI ESTRATEGIA</h3>
                 <div class="stat-grid">
                     <div>ALIADOS: <strong id="total-aliados">0</strong></div>
                     <div>OROS MAZO: <strong id="total-oros">0</strong></div>
@@ -382,43 +417,31 @@
                         <div class="barra-box"><div id="bar-3" class="barra"></div><span>3</span></div>
                         <div class="barra-box"><div id="bar-4" class="barra"></div><span>4+</span></div>
                     </div>
-                    <p id="riesgo-curva" style="font-size: 0.65rem; text-align: center; margin-bottom: 15px;">--</p>
-
-                    <div class="info-auto-grid">
+                    
+                    <div class="info-auto-grid" style="margin-top:15px;">
                         <div class="info-item">
-                            <p class="label-mini">SINERGIA <span id="raza-nombre">RAZA</span></p>
+                            <p class="label-mini">SINERGIA</p>
                             <strong id="sinergia-porcentaje" style="font-size: 1rem;">0%</strong>
-                            <p id="fuera-sinergia" style="font-size: 0.6rem; color: #ff6666;">--</p>
                         </div>
                         <div class="info-item">
                             <p class="label-mini">FUERZA PROM.</p>
                             <strong id="fuerza-val" style="font-size: 1rem;">0</strong>
-                            <p id="fuerza-class" class="status-tag">--</p>
                         </div>
                     </div>
 
                     <div class="info-auto-grid" style="margin-top: 10px; border-top: 1px solid rgba(212,175,55,0.1); padding-top: 8px;">
                         <div class="info-item">
-                            <p class="label-mini">MOTOR ROBO</p>
-                            <strong id="robo-val">0</strong> <span id="robo-status" class="dot-indicator"></span>
+                            <p class="label-mini">ROBO</p><strong id="robo-val">0</strong><span id="robo-status" class="dot-indicator"></span>
                         </div>
                         <div class="info-item">
-                            <p class="label-mini">CONTROL / ANULA</p>
-                            <strong id="control-val">0</strong> <span id="control-status" class="dot-indicator"></span>
+                            <p class="label-mini">CONTROL</p><strong id="control-val">0</strong><span id="control-status" class="dot-indicator"></span>
                         </div>
                     </div>
 
-                    <div style="margin-top: 15px; padding: 10px; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2);">
-                        <p class="label-mini">✨ CARTA CLAVE DEL MAZO</p>
-                        <strong id="key-card-name" style="color: #f7ef8a; display: block;">BUSCANDO LÍDER...</strong>
-                        <p style="font-size: 0.6rem; margin-top: 4px;">Sinergia: <span id="key-card-sinergia">--</span> | Impacto: <span id="key-card-impacto">--</span></p>
-                    </div>
-
-                    <div style="margin-top: 15px;">
-                        <p class="label-mini">SUGERENCIAS DEL GRIMORIO</p>
-                        <ul id="list-recommendations" style="font-family: 'Poppins', sans-serif; font-size: 0.7rem; color: #ccc; padding-left: 15px; margin-top: 5px;">
-                            <li>Agrega cartas para analizar...</li>
-                        </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2);">
+                        <p class="label-mini">✨ CARTA CLAVE</p>
+                        <strong id="key-card-name" style="color: #f7ef8a; font-size: 0.75rem;">BUSCANDO...</strong>
+                        <p style="font-size: 0.6rem; margin-top: 4px;">Impacto: <span id="key-card-impacto">--</span></p>
                     </div>
                 </div>
             </div>
@@ -439,6 +462,7 @@
     <script src="filtros-constructor.js"></script>
     <script src="constructor.js"></script>
     <script src="estrategia.js"></script>
+    <script src="analizador.js"></script>
 
     <script>
         const capsule = document.getElementById('user-logged');

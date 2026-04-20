@@ -1,0 +1,330 @@
+/* ============================================================
+   GRIMORIO DIGITAL - ESTADÍSTICAS AVANZADAS (ESTILO PRO AZUL)
+   Layout: DashBoard Pro Tactical (Fidelity High)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&family=Michroma&family=Montserrat:wght@700;800&display=swap');
+
+/* 1. RESET Y TIPOGRAFÍA */
+.stats-view-overlay, 
+.stats-pro-container, 
+.data-row, 
+.alert-tag, 
+#full-recs-list,
+.tech-item span,
+.diag-list,
+.widget-content {
+    font-family: 'Lexend', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 2. OVERLAY Y FONDO (FIX SCROLL INDEPENDIENTE) */
+.stats-view-overlay {
+    position: fixed;
+    top: 80px; /* Altura exacta del banner para que no lo tape */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px); /* Ocupa el resto del alto de pantalla */
+    background: radial-gradient(circle at 50% 0%, #0a1622 0%, #020508 100%) !important;
+    backdrop-filter: blur(20px);
+    
+    /* Z-INDEX: Justo debajo del Main Header (10001) */
+    z-index: 9999 !important; 
+    
+    display: none; /* Se activa con flex vía JS */
+    flex-direction: column;
+    overflow-y: auto; /* El scroll ahora es interno de esta capa */
+    animation: fadeIn 0.4s ease;
+    pointer-events: auto;
+    
+    padding-top: 20px !important; 
+}
+
+/* Evitar scroll del fondo cuando el dashboard está abierto */
+body.modo-album {
+    overflow: hidden !important;
+}
+
+/* 3. HEADER PRO */
+.stats-pro-header {
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.stats-pro-header h1 {
+    font-family: 'Michroma', sans-serif !important;
+    font-size: 1.6rem;
+    color: #fff;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.stats-pro-header h1 span {
+    color: #d4af37;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 5px;
+    letter-spacing: 5px;
+    opacity: 0.9;
+}
+
+/* 4. GRID DE WIDGETS (4 COLUMNAS) */
+.stats-pro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 96%;
+    max-width: 1600px;
+    margin: 20px auto;
+    padding-bottom: 60px;
+}
+
+.stats-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 5. ESTILO BASE DE WIDGETS */
+.stats-widget {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 4px;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.stats-widget h3 {
+    font-family: 'Michroma', sans-serif !important;
+    font-size: 0.7rem;
+    margin: 0 0 12px 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.stats-widget h3 span {
+    font-size: 0.6rem;
+    opacity: 0.6;
+    font-family: 'Lexend', sans-serif;
+}
+
+/* 6. VARIANTES DE COLOR (Bordes Tácticos) */
+.card-blue { border-left: 3px solid #3498db; }
+.card-red { border-left: 3px solid #e74c3c; }
+.card-gold { border-left: 3px solid #d4af37; }
+.card-cyan { border-left: 3px solid #1abc9c; }
+.card-orange { border-left: 3px solid #e67e22; }
+.card-blue-dark { border-left: 3px solid #2c3e50; }
+.card-red-glow { border: 1px solid rgba(255, 77, 77, 0.4); box-shadow: inset 0 0 15px rgba(255, 77, 77, 0.1); }
+
+/* 7. CONTENIDO INTERNO */
+.widget-content {
+    font-size: 0.85rem;
+    color: #cbd5e0;
+    line-height: 1.5;
+}
+
+.main-label { font-size: 0.9rem; margin-bottom: 12px; color: #fff; }
+.text-high { color: #2ecc71; font-weight: bold; }
+.text-danger { color: #fc8181; }
+.text-warning { color: #f6e05e; }
+.text-success { color: #48bb78; }
+
+/* Listas de Checks y Errores */
+.check-list, .error-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.check-list li, .error-list li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+}
+
+.check { color: #48bb78; font-style: normal; font-weight: bold; }
+.error { color: #f56565; font-style: normal; font-weight: bold; }
+.warning { color: #ecc94b; font-style: normal; font-weight: bold; }
+
+/* 8. BARRAS DE PROGRESO (Presión Detallada) */
+.progress-group {
+    margin-bottom: 15px;
+}
+
+.progress-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+    color: #a0aec0;
+}
+
+.bar-bg {
+    height: 7px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill { 
+    height: 100%; 
+    border-radius: 4px; 
+    transition: width 1s cubic-bezier(0.17, 0.67, 0.83, 0.67); 
+}
+.bar-fill.red { background: linear-gradient(90deg, #9b2c2c, #f56565); box-shadow: 0 0 10px rgba(245, 101, 101, 0.3); }
+.bar-fill.yellow { background: linear-gradient(90deg, #b7791f, #ecc94b); box-shadow: 0 0 10px rgba(236, 201, 75, 0.3); }
+.bar-fill.green { background: linear-gradient(90deg, #276749, #48bb78); box-shadow: 0 0 10px rgba(72, 187, 120, 0.3); }
+
+/* 9. ALERT BOX Y EFICIENCIA */
+.alert-box {
+    background: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+}
+
+.efficiency-box p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 10. BOTÓN VOLVER (ESTILO GOLD) */
+.btn-volver-gold {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to bottom, #d4af37, #8e6d13);
+    border: 1px solid #f7ef8a;
+    color: #000;
+    font-family: 'Michroma', sans-serif;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    letter-spacing: 2px;
+}
+
+.btn-volver-gold:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 11. TOP BAR Y CARRUSEL DE CARTAS PRO */
+.stats-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    margin: 0 auto 20px auto;
+    padding: 12px 20px;
+    width: 96%;
+    border-radius: 4px;
+}
+
+.castle-title-box {
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
+    padding-right: 20px;
+}
+
+.castle-title-box .label { color: #d4af37; font-size: 0.65rem; display: block; letter-spacing: 1px; }
+.castle-title-box .count { color: #fff; font-size: 1.2rem; font-weight: bold; }
+
+.stats-carousel {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 15px 10px;
+    align-items: center;
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 rgba(0,0,0,0.2);
+}
+
+.stats-carousel::-webkit-scrollbar { height: 6px; }
+.stats-carousel::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+
+/* Estilo Miniaturas con Zoom */
+.card-mini-wrapper {
+    position: relative;
+    flex: 0 0 auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.card-mini-wrapper:hover {
+    transform: scale(2.8) translateY(25px);
+    z-index: 1000;
+}
+
+.card-mini-img {
+    height: 70px;
+    border-radius: 4px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    display: block;
+}
+
+.card-mini-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #d4af37;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 50%;
+    border: 1.5px solid #000;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 12. PROBABILIDADES Y ARQUETIPO */
+.prob-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+}
+
+#res-arquetipo-main {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+}
+
+/* 13. ANIMACIONES Y HELPERS */
+body:not(.modo-album) .view-mode-stats { display: none !important; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.float-right { float: right; }
+
+/* Contenedor interno sin márgenes que lo empujen hacia arriba */
+.stats-pro-container {
+    margin-top: 0 !important;
+    padding: 0 20px !important;
+}

@@ -17,7 +17,6 @@ html, body {
 /* 2. LAYOUT PRINCIPAL (GRID POR ÁREAS NOMBRADAS) */
 .constructor-layout {
     display: grid;
-    /* auto permite que la sidebar desaparezca físicamente cuando no tiene width */
     grid-template-columns: auto 1fr 380px; 
     grid-template-rows: 100px 1fr; 
     grid-template-areas: 
@@ -101,8 +100,6 @@ body.modo-album .constructor-layout {
     border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 8px;
     overflow-y: auto;
-    
-    /* ESTADO INICIAL OCULTO Y TOTALMENTE COLAPSADO */
     width: 0;
     padding: 0;
     margin: 0;
@@ -134,7 +131,6 @@ body.modo-album .constructor-layout {
     font-family: 'Cinzel', serif;
 }
 
-/* --- BOTÓN DE EXHIBICIÓN (ESTILO MÍSTICO MEJORADO) --- */
 .btn-exhibicion-toggle {
     width: 100%;
     background: #fff !important;
@@ -155,23 +151,6 @@ body.modo-album .constructor-layout {
     justify-content: center;
     gap: 8px;
     margin-bottom: 10px;
-}
-
-.btn-exhibicion-toggle:hover {
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8) !important;
-    background: #fdfdfd !important;
-    transform: translateY(-1px);
-}
-
-.btn-exhibicion-toggle.modo-deck {
-    background: linear-gradient(to bottom, #d4af37, #b8860b) !important;
-    color: #000 !important;
-    border-color: #f7ef8a !important;
-    box-shadow: 0 0 15px #d4af37 !important;
-}
-
-.btn-exhibicion-toggle span {
-    font-size: 1.1rem;
 }
 
 #main-search {
@@ -216,15 +195,6 @@ body.modo-album .constructor-layout {
     pointer-events: none;
 }
 
-.lock-message {
-    color: var(--accent);
-    font-family: 'Cinzel', serif;
-    text-align: center;
-    padding: 20px;
-    border: 1px double var(--accent);
-    background: rgba(0,0,0,0.9);
-}
-
 /* 6. PANEL DEL MAZO (DERECHA - FIJO) */
 .deck-builder-panel {
     grid-area: deck;
@@ -238,7 +208,11 @@ body.modo-album .constructor-layout {
     width: 380px !important;
     min-width: 380px !important;
     max-width: 380px !important;
-    overflow-y: auto;
+    overflow: hidden; /* Evita scroll de todo el panel */
+}
+
+.deck-stats-header {
+    flex: 0 0 auto;
 }
 
 .deck-stats-header h3 {
@@ -262,13 +236,14 @@ body.modo-album .constructor-layout {
 
 .stat-grid strong { color: var(--accent); }
 
-/* SECCIÓN DE ANÁLISIS EXTRA */
+/* PANEL DE ESTADÍSTICAS EXTRA CON SCROLL LIMITADO */
 .stats-extra-panel {
     margin-top: 15px;
     padding: 10px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 6px;
+    flex: 0 0 auto;
 }
 
 .label-mini {
@@ -324,12 +299,12 @@ body.modo-album .constructor-layout {
     text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
-/* 7. LISTA DE CARTAS CON MINIATURAS */
+/* 7. LISTA DE CARTAS (CON SCROLL INTERNO INDEPENDIENTE) */
 .deck-content-scroll {
-    flex: 1;
-    overflow-y: auto;
+    flex: 1; /* Toma todo el espacio disponible */
+    overflow-y: auto; /* Solo permite scroll aquí */
     margin: 15px 0;
-    scrollbar-width: thin;
+    padding-right: 5px;
 }
 
 .deck-card-item {
@@ -385,11 +360,6 @@ body.modo-album .constructor-layout {
     font-size: 0.8rem;
 }
 
-.btn-qty-control:hover {
-    background: var(--accent);
-    color: #000;
-}
-
 /* 9. ESTADOS DE ALERTA */
 .status-oro-alert {
     margin-top: 10px;
@@ -403,7 +373,12 @@ body.modo-album .constructor-layout {
     border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
-/* 10. BOTÓN GUARDAR */
+/* 10. BOTONES DE ACCIÓN (PIE DEL PANEL) */
+.deck-actions {
+    flex: 0 0 auto;
+    margin-top: auto;
+}
+
 .btn-save-deck {
     width: 100%;
     background: linear-gradient(to bottom, #d4af37, #b8860b);
@@ -414,12 +389,6 @@ body.modo-album .constructor-layout {
     font-weight: bold;
     cursor: pointer;
     border-radius: 4px;
-    margin-top: auto;
-}
-
-.btn-save-deck:hover {
-    filter: brightness(1.2);
-    box-shadow: 0 0 15px var(--accent);
 }
 
 /* 11. ELEMENTOS DINÁMICOS DE REGLAS (JS) */
@@ -439,7 +408,6 @@ body.modo-album .constructor-layout {
     align-items: center;
     gap: 8px;
     margin-left: 15px;
-    vertical-align: middle;
 }
 
 .resumen-reglas-estilo {
@@ -453,7 +421,7 @@ body.modo-album .constructor-layout {
     font-weight: bold;
 }
 
-/* SCROLLBAR CUSTOM */
+/* SCROLLBAR CUSTOM BASE */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
